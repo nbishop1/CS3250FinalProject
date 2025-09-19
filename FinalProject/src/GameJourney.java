@@ -23,8 +23,12 @@ public class GameJourney {
 		this.day = day;
 	}
 	
-	public boolean gameOver() {
+	public boolean getGameOver() {
 		return gameOver;
+	}
+	
+	public void setGameOver(boolean over) {
+		gameOver = over;
 	}
 
 	public Player getPlayer() {
@@ -38,9 +42,18 @@ public class GameJourney {
 	public ArrayList<Town> getTowns() {
 		return towns;
 	}
-
-	public void setTowns(ArrayList<Town> towns) {
-		this.towns = towns;
+	
+	// method signatures
+	public void travelToNextTown() {
+		// increment day, run event probability/trigger, begin new Blackjack game
+	}
+	
+	public void startJourney() {
+		// create a journey loop
+	}
+	
+	public void endJourney() {
+		gameOver = true;
 	}
 
 }

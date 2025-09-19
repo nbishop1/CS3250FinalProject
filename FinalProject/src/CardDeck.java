@@ -14,9 +14,19 @@ public class CardDeck {
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
-
-	public void setCards(ArrayList<Card> cards) {
-		this.cards = cards;
+	
+	// method signatures
+	
+	public void shuffle() {
+		// implement shuffling the card deck
+	}
+	
+	public Card draw() {
+		return null;// if there are no more cards
+	}
+	
+	public void reset() {
+		// recreate a card deck
 	}
 
 }

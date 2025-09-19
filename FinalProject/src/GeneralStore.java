@@ -12,6 +12,7 @@ public class GeneralStore {
 		// Can use add item function to add default items
 	}
 	
+	
 	// setters and getters
 	public ArrayList<String> getItemNames() {
 		return itemNames;
@@ -29,6 +30,24 @@ public class GeneralStore {
 		this.itemPrices = itemPrices;
 	}
 	
+	// methods
 	
+	public void addItem(String name, int price) {
+		itemNames.add(name);
+		itemPrices.add(price);
+	}
+	
+	public int getPrice(String name) {
+		// use for loop to get price of given item, return price if found
+		return -1; // if item isn't found
+	}
+	
+	public boolean buy(Player player, String itemName, int quantity) {
+		return false; // if item not found or not enough coins, otherwise return true
+	}
+	
+	public void displayItems() {
+		// display the available items using a for loop
+	}
 
 }

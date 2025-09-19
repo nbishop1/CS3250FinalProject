@@ -11,18 +11,20 @@ public class Event {
 	}
 	
 	
-	// setters and getters
+	// getters (no setters needed)
 	public String getDescription() {
 		return description;
 	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
+
 	public int getImpact() {
 		return impact;
 	}
-	public void setImpact(int impact) {
-		this.impact = impact;
+	
+	// method signatures
+	
+	public void applyTo(Player player) {
+		// change the state of the player
 	}
+
 
 }

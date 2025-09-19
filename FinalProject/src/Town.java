@@ -29,29 +29,26 @@ public class Town {
 		return store;
 	}
 
-
-	public void setStore(GeneralStore store) {
-		this.store = store;
-	}
-
-
 	public BlackJackGame getBlackjackGame() {
 		return blackjackGame;
 	}
 
-
-	public void setBlackjackGame(BlackJackGame blackjackGame) {
-		this.blackjackGame = blackjackGame;
-	}
-
-
 	public ArrayList<Event> getEvents() {
 		return events;
 	}
-
-
-	public void setEvents(ArrayList<Event> events) {
-		this.events = events;
+	
+	// method signatures
+	
+	public void enterTown(Player player) {
+		// show store and allow new blackjack game
+	}
+	
+	public void visitStore(Player player) {
+		// open the store for the player
+	}
+	
+	public void playBlackjack(Player player) {
+		// play the blackjack game for the player
 	}
 
 }

@@ -36,7 +36,13 @@ public class Supplies {
 		this.spareParts = spareParts;
 	}
 	
-
+	// method signatures
 	
-
+	public void eatFood(int amount) {
+		// decrement food supply
+	}
+	
+	public void addSupplies(int food, int med, int parts) {
+		// add amounts
+	}
 }

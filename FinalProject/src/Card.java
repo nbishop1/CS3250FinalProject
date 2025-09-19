@@ -16,18 +16,15 @@ public class Card {
 	public Suit getSuit() {
 		return suit;
 	}
-	public void setSuit(Suit suit) {
-		this.suit = suit;
-	}
+	
 	public String getCardRank() {
 		return cardRank;
 	}
-	public void setCardRank(String cardRank) {
-		this.cardRank = cardRank;
-	}
+	
 	public int getValue() {
 		return value;
 	}
+	
 	public void setValue(int value) {
 		this.value = value;
 	}

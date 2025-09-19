@@ -47,9 +47,18 @@ public class Player {
 	public ArrayList<Item> getInventory() {
 		return inventory;
 	}
-
-	public void setInventory(ArrayList<Item> inventory) {
-		this.inventory = inventory;
+	
+	// method signatures
+	public void buyItem(Item item, int cost) {
+		// subtract spent coins and add append item into inventory array
+	}
+	
+	public void sellItem(Item item, int price) {
+		// remove item from array and increase coins
+	}
+	
+	public void eventEffect(Event event) {
+		// update health and supplies based on what event occurs
 	}
 
 }

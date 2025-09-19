@@ -7,13 +7,19 @@ public class CardDealer {
 		this.hand = new CardHand();
 	}
 
-	// setters and getters
+	// getters (no setters needed)
 	public CardHand getHand() {
 		return hand;
 	}
-
-	public void setHand(CardHand hand) {
-		this.hand = hand;
+	
+	// method signatures
+	public void startDeal(CardDeck deck, CardHand playerHand) {
+		// deal two cards to player and dealer at blackjack game start
 	}
+	
+	public void dealersTurn(CardDeck deck) {
+		// deal a single card if dealer's hand is < 17
+	}
+
 
 }
