@@ -1,10 +1,20 @@
+import java.util.ArrayList;
 
 public class Player {
 	private String name;
 	private int coin;
 	private int health;
+	private Supplies supplies;
+	private ArrayList<Item> inventory;
 	
-	
+	// default constructor
+	public Player(String name, int coin, int health) {
+		this.name = name;
+		this.coin = 20;
+		this.health = 100;
+		this.supplies = new Supplies();
+		this.inventory = new ArrayList<>();
+	}
 	
 	// getters and setters
 	public String getName() {
@@ -24,6 +34,22 @@ public class Player {
 	}
 	public void setHealth(int health) {
 		this.health = health;
+	}
+
+	public Supplies getSupplies() {
+		return supplies;
+	}
+
+	public void setSupplies(Supplies supplies) {
+		this.supplies = supplies;
+	}
+
+	public ArrayList<Item> getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(ArrayList<Item> inventory) {
+		this.inventory = inventory;
 	}
 
 }
