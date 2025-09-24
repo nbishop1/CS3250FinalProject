@@ -8,7 +8,7 @@ public class Player {
 	private ArrayList<Item> inventory;
 	
 	// default constructor
-	public Player(String name, int coin, int health) {
+	public Player(String name) {
 		this.name = name;
 		this.coin = 20;
 		this.health = 100;
