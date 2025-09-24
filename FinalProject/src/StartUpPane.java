@@ -38,6 +38,7 @@ public class StartUpPane extends BorderPane {
         Button continueBtn = new Button("Continue Game");
         Button settingsBtn = new Button("Settings");
 
+        // Styling the menu buttons to be the same
         String buttonStyle = "-fx-border-radius: 5px; -fx-border-color: limegreen; "
                            + "-fx-font-size: 24px; -fx-font-family: 'Rockwell'; "
                            + "-fx-background-color: black; -fx-text-fill: limegreen;";
@@ -61,19 +62,23 @@ public class StartUpPane extends BorderPane {
         	// Create a new Player with the default coins/health
         	player = new Player(playerName);
         	
-            // Print to console for now (proof of interaction)
+            // Print to console for now, in the future, this would jump into Day 0
+        	// 		starting a new game run.
             System.out.println("New game started!");
             System.out.println("Player name: " + player.getName());
             System.out.println("Coins: " + player.getCoin());
             System.out.println("Health: " + player.getHealth());
         });
         
-        // if Continue is clicked
+        // if Continue is clicked print msg to console. In the final project, this will 
+        //		continue a previous game as long as GameOver is false. 
         continueBtn.setOnAction(e -> {
             System.out.println("Continue Game button clicked (feature not implemented yet).");
         });
         
-        // if Settings is clicked
+        // if Settings is clicked print msg to console. In final project, this will open
+        //		the setting menu allowing players to view controls and other accessibility
+        //		options.
         settingsBtn.setOnAction(e -> {
             System.out.println("Settings button clicked (feature not implemented yet).");
         });
