@@ -66,7 +66,7 @@ public class StartUpPane extends BorderPane {
         	// 		starting a new game run.
             System.out.println("New game started!");
             System.out.println("Player name: " + player.getName());
-            System.out.println("Coins: " + player.getCoin());
+            System.out.println("Coins: " + player.getSupplies().getCoin());
             System.out.println("Health: " + player.getHealth());
         });
         

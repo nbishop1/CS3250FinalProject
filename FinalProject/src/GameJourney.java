@@ -4,13 +4,15 @@ public class GameJourney {
 	private int day;
 	private boolean gameOver;
 	private Player player;
+	private Family family;
 	private ArrayList<Town> towns;
 	
 	// default constructor
-	public GameJourney(Player player) {
+	public GameJourney(Player player, Family family) {
 		this.day = 1;
 		this.gameOver = false;
 		this.player = player;
+		this.family = family;
 		this.towns = new ArrayList<>();
 		
 	}
@@ -39,6 +41,14 @@ public class GameJourney {
 		this.player = player;
 	}
 
+	public Family getFamily() {
+		return family;
+	}
+
+	public void setFamily(Family family) {
+		this.family = family;
+	}
+
 	public ArrayList<Town> getTowns() {
 		return towns;
 	}
@@ -54,6 +64,13 @@ public class GameJourney {
 	
 	public void endJourney() {
 		gameOver = true;
+	}
+	
+	public void nextDay() {
+	    day++;
+	    family.nextDay(); // Progress all family members
+	    // Here you would check for needs, apply penalties, and trigger events
+	    // Example: for (FamilyMember m : family.getMembers()) { ... }
 	}
 
 }
