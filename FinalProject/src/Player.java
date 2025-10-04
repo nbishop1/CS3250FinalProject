@@ -29,13 +29,39 @@ public class Player extends FamilyMember {
         return inventory;
     }
 
-    // method signatures
-    public void buyItem(Item item, int cost) {
-        // subtract spent coins and add item into inventory array
+    // methods
+    public boolean buyItem(Item item, int cost) {
+        if (supplies.getCoin() < cost) {
+            return false; // Not enough coins
+        }
+        supplies.spendCoin(cost);
+        // Check if item already exists in inventory
+        for (Item invItem : inventory) {
+            if (invItem.getName().equalsIgnoreCase(item.getName())) {
+                invItem.setQuantity(invItem.getQuantity() + item.getQuantity());
+                return true;
+            }
+        }
+        // Item not found, add new
+        inventory.add(new Item(item.getName(), item.getQuantity()));
+        return true;
     }
 
-    public void sellItem(Item item, int price) {
-        // remove item from array and increase coins
+    public boolean sellItem(Item item, int price) {
+        for (int i = 0; i < inventory.size(); i++) {
+            Item invItem = inventory.get(i);
+            if (invItem.getName().equalsIgnoreCase(item.getName())) {
+                if (invItem.getQuantity() >= item.getQuantity()) {
+                    invItem.setQuantity(invItem.getQuantity() - item.getQuantity());
+                    supplies.setCoin(supplies.getCoin() + price);
+                    if (invItem.getQuantity() == 0) {
+                        inventory.remove(i);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false; // Item not found or not enough quantity
     }
 
     public void eventEffect(Event event) {
