@@ -6,11 +6,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class StartUpPane extends BorderPane {
 	private Player player; // holds the player name
+	private Stage primaryStage;
 
-    public StartUpPane() {
+    public StartUpPane(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         this.setStyle("-fx-background-color: black;");
 
         // Game title 
@@ -52,22 +55,17 @@ public class StartUpPane extends BorderPane {
         
         // Menu Button actions
         newGameBtn.setOnAction(e -> {
-        	String playerName = nameField.getText();
-        	
-        	// in case user clicked New Game without an input
-        	if (playerName.isEmpty()) {
-        		playerName = "Player";
-        	}
-        	
-        	// Create a new Player with the default coins/health
-        	player = new Player(playerName);
-        	
-            // Print to console for now, in the future, this would jump into Day 0
-        	// 		starting a new game run.
-            System.out.println("New game started!");
-            System.out.println("Player name: " + player.getName());
-            System.out.println("Coins: " + player.getSupplies().getCoin());
-            System.out.println("Health: " + player.getHealth());
+            String playerName = nameField.getText();
+            if (playerName.isEmpty()) {
+                playerName = "Player";
+            }
+            // Create the default family and journey
+            Family family = Family.createDefaultFamily(playerName);
+            Player player = (Player) family.getMemberByName(playerName);
+            GameJourney journey = new GameJourney(player, family);
+            // Switch to IntroPane instead of JourneyPane
+            IntroPane introPane = new IntroPane(primaryStage, journey);
+            primaryStage.getScene().setRoot(introPane);
         });
         
         // if Continue is clicked print msg to console. In the final project, this will 
