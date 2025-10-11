@@ -1,16 +1,13 @@
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class StartUpPane extends BorderPane {
-	private Player player; // holds the player name
-	private Stage primaryStage;
+    private Stage primaryStage;
 
     public StartUpPane(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -18,78 +15,45 @@ public class StartUpPane extends BorderPane {
 
         // Game title 
         Label title = new Label("Hit, Partner.");
-        title.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 120px; -fx-font-weight: bold; -fx-text-fill: limegreen;");
+        double initialFontSize = 120; // Title grows with window size, window is initially 800px wide
+        title.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: " + initialFontSize + "px; -fx-font-weight: bold; -fx-text-fill: limegreen;");
 
         HBox topPane = new HBox(title);
-        topPane.setAlignment(Pos.CENTER_LEFT);
+        topPane.setAlignment(Pos.CENTER); // Center horizontally
         topPane.setPrefHeight(120);
-        topPane.setPadding(new Insets(0, 0, 0, 50));
+        // Remove left padding for true centering
         setTop(topPane);
+        
+        // Title resizing logic
+        // Responsive font size binding
+        this.widthProperty().addListener((obs, oldVal, newVal) -> {
+            double width = newVal.doubleValue();
+            double scaleFactor = 0.15; // 15% of window width
+            double minSize = 48; // Minimum font size
+            double maxSize = 200; // Maximum font size
+            double fontSize = Math.max(minSize, Math.min(maxSize, width * scaleFactor));
+            title.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: " + fontSize + "px; -fx-font-weight: bold; -fx-text-fill: limegreen;");
+        });
 
-        // Player inputs their name
-        Label nameLabel = new Label("Enter your name:");
-        nameLabel.setStyle("-fx-text-fill: limegreen; -fx-font-size: 18px;");
-        TextField nameField = new TextField();
-        nameField.setPrefWidth(250);
-
-        HBox nameBox = new HBox(10, nameLabel, nameField);
-        nameBox.setAlignment(Pos.CENTER_LEFT);
-        nameBox.setPadding(new Insets(20, 0, 0, 50));
-
-        // Menu buttons
+        // New Game button
         Button newGameBtn = new Button("New Game");
-        Button continueBtn = new Button("Continue Game");
-        Button settingsBtn = new Button("Settings");
-
-        // Styling the menu buttons to be the same
-        String buttonStyle = "-fx-border-radius: 5px; -fx-border-color: limegreen; "
-                           + "-fx-font-size: 24px; -fx-font-family: 'Rockwell'; "
-                           + "-fx-background-color: black; -fx-text-fill: limegreen;";
-        newGameBtn.setStyle(buttonStyle);
-        continueBtn.setStyle(buttonStyle);
-        settingsBtn.setStyle(buttonStyle);
-
-        newGameBtn.setPrefWidth(250);
-        continueBtn.setPrefWidth(250);
-        settingsBtn.setPrefWidth(250);
-        
-        // Menu Button actions
+        newGameBtn.setStyle("-fx-font-size: 32px; -fx-background-color: limegreen; -fx-text-fill: black; -fx-font-family: 'Rockwell';");
         newGameBtn.setOnAction(e -> {
-            String playerName = nameField.getText();
-            if (playerName.isEmpty()) {
-                playerName = "Player";
-            }
-            // Create the default family and journey
-            Family family = Family.createDefaultFamily(playerName);
-            Player player = (Player) family.getMemberByName(playerName);
-            GameJourney journey = new GameJourney(player, family);
-            // Switch to IntroPane instead of JourneyPane
-            IntroPane introPane = new IntroPane(primaryStage, journey);
-            primaryStage.getScene().setRoot(introPane);
+            NameEntryPane nameEntryPane = new NameEntryPane(primaryStage);
+            primaryStage.getScene().setRoot(nameEntryPane);
         });
-        
-        // if Continue is clicked print msg to console. In the final project, this will 
-        //		continue a previous game as long as GameOver is false. 
-        continueBtn.setOnAction(e -> {
-            System.out.println("Continue Game button clicked (feature not implemented yet).");
-        });
-        
-        // if Settings is clicked print msg to console. In final project, this will open
-        //		the setting menu allowing players to view controls and other accessibility
-        //		options.
+
+        // Settings button
+        Button settingsBtn = new Button("Settings");
+        settingsBtn.setStyle("-fx-font-size: 32px; -fx-background-color: limegreen; -fx-text-fill: black; -fx-font-family: 'Rockwell';");
         settingsBtn.setOnAction(e -> {
-            System.out.println("Settings button clicked (feature not implemented yet).");
+            SettingsPane settingsPane = new SettingsPane(primaryStage);
+            primaryStage.getScene().setRoot(settingsPane);
         });
 
-        // Scene for menu layout
-        VBox menuBox = new VBox(20, newGameBtn, continueBtn, settingsBtn);
-        menuBox.setAlignment(Pos.CENTER_LEFT);
-        menuBox.setPadding(new Insets(20, 0, 0, 50));
-
-        // Combine input and menu for alignment
-        VBox centerBox = new VBox(30, nameBox, menuBox);
-        centerBox.setAlignment(Pos.TOP_LEFT);
-
+        VBox centerBox = new VBox(40, newGameBtn, settingsBtn);
+        centerBox.setAlignment(Pos.CENTER);
         setCenter(centerBox);
+
     }
 }
