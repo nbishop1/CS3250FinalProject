@@ -17,7 +17,7 @@ public class SettingsPane extends BorderPane {
 
         Button backBtn = new Button("Back");
         backBtn.setStyle("-fx-border-color: limegreen; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-radius: 5px; -fx-font-size: 16px;");
-        backBtn.setOnAction(e -> {
+        backBtn.setOnAction(event -> {
             StartUpPane startUpPane = new StartUpPane(primaryStage);
             primaryStage.getScene().setRoot(startUpPane);
         });

@@ -1,7 +1,8 @@
 import java.util.HashMap;
 
 public class Inventory {
-    private HashMap<String, Item> items;
+	// Got scaffolding from ChatGPT but adapted it to my needs
+    private HashMap<String, Item> items; // Key: item name, Value: Item object
 
     public Inventory() {
         items = new HashMap<>();

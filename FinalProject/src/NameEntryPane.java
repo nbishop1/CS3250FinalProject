@@ -23,7 +23,7 @@ public class NameEntryPane extends BorderPane {
 
         Button continueBtn = new Button("Continue");
         continueBtn.setStyle("-fx-font-size: 24px; -fx-background-color: limegreen; -fx-text-fill: black; -fx-font-family: 'Rockwell';");
-        continueBtn.setOnAction(e -> {
+        continueBtn.setOnAction(event -> {
             String playerName = nameField.getText().trim();
             if (!playerName.isEmpty()) {
                 Player player = new Player(playerName);
