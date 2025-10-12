@@ -1,101 +1,138 @@
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
-public class JourneyPane extends BorderPane {
+public class JourneyPane extends VBox {
     private GameJourney journey;
-    private VBox familyBox;
+    private VBox suppliesBox;
     private Label dayLabel;
-    private Label suppliesLabel;
-    private Label feedbackLabel;
+    private HBox familyStatusBox;
+    private Button nextDayButton;
+    private HBox bottomBox;
 
     public JourneyPane(GameJourney journey) {
         this.journey = journey;
         this.setStyle("-fx-background-color: black;");
+        this.setSpacing(0);
 
+        // Top half: HBox split into supplies (33%) and day/TODO: animation (66%)
+        HBox topHalf = new HBox();
+        topHalf.setPrefHeight(350); // Fixed height for top half
+        topHalf.setSpacing(0);
+
+        // Supplies box (left 33%)
+        suppliesBox = new VBox(10);
+        suppliesBox.setPadding(new Insets(30, 30, 30, 30));
+        suppliesBox.setStyle("-fx-font-family: 'Rockwell'; -fx-border-color: limegreen; -fx-border-width: 3px; -fx-background-color: black;");
+        suppliesBox.setPrefWidth(400);
+        suppliesBox.setAlignment(javafx.geometry.Pos.TOP_LEFT);
+        Label suppliesTitle = new Label("Supplies");
+        suppliesTitle.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 30px; -fx-text-fill: limegreen;");
+        Label suppliesLabel = new Label();
+        suppliesLabel.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 22px; -fx-text-fill: limegreen;");
+        suppliesLabel.setWrapText(true);
+        suppliesLabel.setMaxWidth(Double.MAX_VALUE);
+        suppliesLabel.setMaxHeight(Double.MAX_VALUE);
+        VBox.setVgrow(suppliesLabel, Priority.ALWAYS);
+        updateSuppliesLabel(suppliesLabel);
+        suppliesBox.getChildren().addAll(suppliesTitle, suppliesLabel);
+        topHalf.getChildren().add(suppliesBox);
+
+        // Right 66%: VBox for day label, animation placeholder, and Next Day button
+        VBox rightTop = new VBox();
+        rightTop.setPadding(new Insets(20, 40, 0, 0));
+        rightTop.setPrefWidth(800);
+        rightTop.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
         dayLabel = new Label();
-        dayLabel.setStyle("-fx-font-size: 32px; -fx-text-fill: limegreen;");
+        dayLabel.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 48px; -fx-text-fill: limegreen;");
         updateDayLabel();
-        setTop(dayLabel);
-        BorderPane.setMargin(dayLabel, new Insets(20,0,0,20));
+        rightTop.getChildren().add(dayLabel);
+        // Placeholder for TODO: animation
+        Region animationSpace = new Region();
+        VBox.setVgrow(animationSpace, Priority.ALWAYS);
+        rightTop.getChildren().add(animationSpace);
 
-        suppliesLabel = new Label();
-        suppliesLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: limegreen;");
-        updateSuppliesLabel();
-        setLeft(suppliesLabel);
-        BorderPane.setMargin(suppliesLabel, new Insets(20,0,0,20));
-
-        familyBox = new VBox(10);
-        familyBox.setPadding(new Insets(20));
-        updateFamilyBox();
-        setCenter(familyBox);
-
-        Button nextDayBtn = new Button("Next Day");
-        nextDayBtn.setStyle("-fx-font-size: 20px; -fx-background-color: limegreen; -fx-text-fill: black;");
-        nextDayBtn.setOnAction(e -> {
+        // Next Day button at bottom right of top section
+        nextDayButton = new Button("Next Day");
+        nextDayButton.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 20px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
+        nextDayButton.setOnAction(event -> {
             journey.nextDay();
             updateDayLabel();
-            updateSuppliesLabel();
-            updateFamilyBox();
-            feedbackLabel.setText("Day progressed. Events and needs updated.");
+            updateSuppliesLabel(suppliesLabel);
+            updateFamilyStatusBox();
         });
-        setBottom(nextDayBtn);
-        BorderPane.setMargin(nextDayBtn, new Insets(20));
+        HBox buttonBox = new HBox(nextDayButton); 
+        buttonBox.setAlignment(javafx.geometry.Pos.BOTTOM_RIGHT);
+        buttonBox.setPadding(new Insets(20, 0, 20, 0)); // top left bottom right
+        rightTop.getChildren().add(buttonBox);
 
-        feedbackLabel = new Label("");
-        feedbackLabel.setStyle("-fx-text-fill: limegreen; -fx-font-size: 16px;");
-        setRight(feedbackLabel);
-        BorderPane.setMargin(feedbackLabel, new Insets(20));
+        topHalf.getChildren().add(rightTop);
+        HBox.setHgrow(rightTop, Priority.ALWAYS);
+
+        // Limegreen line separator: Got scaffolding from ChatGPT and adapted it to my needs
+        Rectangle line = new Rectangle();
+        line.setHeight(3);
+        line.setFill(Color.LIMEGREEN);
+        line.widthProperty().bind(this.widthProperty());
+
+        // Bottom half: HBox for family statuses only
+        familyStatusBox = new HBox();
+        familyStatusBox.setPadding(new Insets(40, 0, 0, 0));
+        familyStatusBox.setAlignment(javafx.geometry.Pos.CENTER);
+        updateFamilyStatusBox();
+
+        // Wrap familyStatusBox in another HBox to right-align it with padding
+        bottomBox = new HBox();
+        bottomBox.setPadding(new Insets(0, 40, 20, 40));
+        bottomBox.setSpacing(20);
+        bottomBox.setAlignment(javafx.geometry.Pos.BOTTOM_RIGHT);
+        HBox.setHgrow(familyStatusBox, Priority.ALWAYS);
+        bottomBox.getChildren().addAll(familyStatusBox);
+
+        // Add to root VBox 
+        this.getChildren().clear(); 
+        this.getChildren().addAll(topHalf, line, bottomBox); 
+        VBox.setVgrow(topHalf, Priority.ALWAYS);
+        VBox.setVgrow(bottomBox, Priority.ALWAYS);
     }
 
     private void updateDayLabel() {
-        dayLabel.setText("Day: " + journey.getDay());
+        dayLabel.setText("Day " + journey.getDay());
     }
 
-    private void updateSuppliesLabel() {
+    private void updateSuppliesLabel(Label suppliesLabel) {
         Supplies s = journey.getPlayer().getSupplies();
-        suppliesLabel.setText("Supplies:\nFood: " + s.getFood() + "\nWater: " + s.getWater() + "\nMedicine: " + s.getMedicine() + "\nAmmo: " + s.getAmmo() + "\nSpare Parts: " + s.getSpareParts() + "\nCoins: " + s.getCoin());
+        suppliesLabel.setText("Food: " + s.getFood() + "\nWater: " + s.getWater() + "\nMedicine: " 
+            + s.getMedicine() + "\nAmmo: " + s.getAmmo() + "\nSpare Parts: " + s.getSpareParts() 
+            + "\nCoins: " + s.getCoin());
     }
 
-    private void updateFamilyBox() {
-        familyBox.getChildren().clear();
+    private void updateFamilyStatusBox() {
+        familyStatusBox.getChildren().clear();
         for (FamilyMember member : journey.getFamily().getMembers()) {
-            Label memberLabel = new Label(member.getName() + " - Health: " + member.getHealth() + (member.isSickOrInjured() ? " (Sick/Injured)" : ""));
-            memberLabel.setStyle("-fx-text-fill: green; -fx-font-size: 18px;");
-            HBox actions = new HBox(10);
-            Button feedBtn = new Button("Feed");
-            feedBtn.setStyle("-fx-border-color: limegreen; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-radius: 5px; -fx-font-size: 16px;");
-            feedBtn.setOnAction(e -> {
-                journey.getPlayer().getSupplies().eatFood(1);
-                member.feed();
-                updateSuppliesLabel();
-                updateFamilyBox();
-                feedbackLabel.setText(member.getName() + " was fed.");
-            });
-            Button waterBtn = new Button("Give Water");
-            waterBtn.setStyle("-fx-border-color: limegreen; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-radius: 5px; -fx-font-size: 16px;");
-            waterBtn.setOnAction(e -> {
-                journey.getPlayer().getSupplies().drinkWater(1);
-                member.giveWater();
-                updateSuppliesLabel();
-                updateFamilyBox();
-                feedbackLabel.setText(member.getName() + " was given water.");
-            });
-            Button healBtn = new Button("Heal");
-            healBtn.setStyle("-fx-border-color: limegreen; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-radius: 5px; -fx-font-size: 16px;");
-            healBtn.setOnAction(e -> {
-                journey.getPlayer().getSupplies().useMedicine(1);
-                member.heal();
-                updateSuppliesLabel();
-                updateFamilyBox();
-                feedbackLabel.setText(member.getName() + " was healed.");
-            });
-            actions.getChildren().addAll(feedBtn, waterBtn, healBtn);
-            VBox memberBox = new VBox(5, memberLabel, actions);
-            familyBox.getChildren().add(memberBox);
+            VBox cardBox = new VBox();
+            cardBox.setAlignment(javafx.geometry.Pos.CENTER);
+            cardBox.setPadding(new Insets(10));
+            cardBox.setStyle("-fx-font-family: 'Rockwell'; -fx-border-color: limegreen; -fx-border-width: 3px; -fx-background-color: black; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+            cardBox.setMaxWidth(Double.MAX_VALUE);
+            cardBox.setMinHeight(80);
+
+            Label statusLabel = new Label(member.getName() + " " + member.getStatusText());
+            statusLabel.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 20px; -fx-text-fill: limegreen;");
+            statusLabel.setWrapText(true);
+            statusLabel.setMaxWidth(Double.MAX_VALUE);
+            VBox.setVgrow(statusLabel, Priority.ALWAYS);
+            cardBox.getChildren().add(statusLabel);
+
+            familyStatusBox.getChildren().add(cardBox);
+            HBox.setHgrow(cardBox, Priority.ALWAYS);
         }
     }
+
 }

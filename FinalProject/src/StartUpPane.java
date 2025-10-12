@@ -15,7 +15,7 @@ public class StartUpPane extends BorderPane {
 
         // Game title 
         Label title = new Label("Hit, Partner.");
-        double initialFontSize = 120; // Title grows with window size, window is initially 800px wide
+        double initialFontSize = 150; // Title grows with window size, window is initially 800px wide
         title.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: " + initialFontSize + "px; -fx-font-weight: bold; -fx-text-fill: limegreen;");
 
         HBox topPane = new HBox(title);
@@ -24,29 +24,29 @@ public class StartUpPane extends BorderPane {
         // Remove left padding for true centering
         setTop(topPane);
         
-        // Title resizing logic
-        // Responsive font size binding
+        // Title resizing logic: Got scaffolding from ChatGPT, adjusted to my needs
+        // Responsive font size 
         this.widthProperty().addListener((obs, oldVal, newVal) -> {
             double width = newVal.doubleValue();
             double scaleFactor = 0.15; // 15% of window width
-            double minSize = 48; // Minimum font size
-            double maxSize = 200; // Maximum font size
+            double minSize = 40; // Minimum font size
+            double maxSize = 250; // Maximum font size
             double fontSize = Math.max(minSize, Math.min(maxSize, width * scaleFactor));
             title.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: " + fontSize + "px; -fx-font-weight: bold; -fx-text-fill: limegreen;");
         });
 
         // New Game button
         Button newGameBtn = new Button("New Game");
-        newGameBtn.setStyle("-fx-font-size: 32px; -fx-background-color: limegreen; -fx-text-fill: black; -fx-font-family: 'Rockwell';");
-        newGameBtn.setOnAction(e -> {
+        newGameBtn.setStyle("-fx-border-color: limegreen; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-radius: 5px; -fx-font-size: 32px; -fx-font-family: 'Rockwell';");
+        newGameBtn.setOnAction(event -> {
             NameEntryPane nameEntryPane = new NameEntryPane(primaryStage);
             primaryStage.getScene().setRoot(nameEntryPane);
         });
 
         // Settings button
         Button settingsBtn = new Button("Settings");
-        settingsBtn.setStyle("-fx-font-size: 32px; -fx-background-color: limegreen; -fx-text-fill: black; -fx-font-family: 'Rockwell';");
-        settingsBtn.setOnAction(e -> {
+        settingsBtn.setStyle("-fx-border-color: limegreen; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-radius: 5px; -fx-font-size: 32px; -fx-font-family: 'Rockwell';");
+        settingsBtn.setOnAction(event -> {
             SettingsPane settingsPane = new SettingsPane(primaryStage);
             primaryStage.getScene().setRoot(settingsPane);
         });

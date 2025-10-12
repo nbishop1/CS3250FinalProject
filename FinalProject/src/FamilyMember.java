@@ -53,4 +53,24 @@ public class FamilyMember {
     public void feed() { daysSinceLastFood = 0; }
     public void giveWater() { daysSinceLastWater = 0; }
     public void heal() { isSickOrInjured = false; daysSinceSickOrInjured = 0; }
+
+    public String getStatusText() {
+        if (!alive) {
+            return "has passed away.";
+        }
+        boolean famished = needsFood();
+        boolean parched = needsWater();
+        boolean sick = isSickOrInjured();
+        if (famished && parched) {
+            return "is feeling famished and parched.";
+        } else if (famished) {
+            return "is feeling famished.";
+        } else if (parched) {
+            return "is feeling parched.";
+        } else if (sick) {
+            return "is not feeling well today.";
+        } else {
+            return "is feeling okay today.";
+        }
+    }
 }
