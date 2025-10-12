@@ -8,23 +8,23 @@ public class Family {
         family.addMember(new Player(playerName)); // Player: 1 food/4 days, 1 water/3 days, 1 medicine/7 days
         family.addMember(new FamilyMember("Mary", 3, 2, 5)); // Wife
         family.addMember(new FamilyMember("Uncle", 3, 2, 5)); // Uncle
-        family.addMember(new FamilyMember("Luke", 1, 1, 3)); // Son
-        family.addMember(new FamilyMember("Jessie", 1, 1, 3)); // Daughter
+        family.addMember(new FamilyMember("Luke", 2, 1, 3)); // Son
+        family.addMember(new FamilyMember("Jessie", 2, 1, 3)); // Daughter
         return family;
     }
 
     public Family() {
         members = new ArrayList<>();
     }
-
-    public void addMember(FamilyMember member) {
+    
+    public void addMember(FamilyMember member) { 
         members.add(member);
     }
 
     public ArrayList<FamilyMember> getMembers() {
         return members;
     }
-
+    
     public FamilyMember getMemberByName(String name) {
         for (FamilyMember m : members) {
             if (m.getName().equalsIgnoreCase(name)) return m;

@@ -108,15 +108,20 @@ public class JourneyPane extends VBox {
 
     private void updateSuppliesLabel(Label suppliesLabel) {
         Supplies s = journey.getPlayer().getSupplies();
-        suppliesLabel.setText("Food: " + s.getFood() + "\nWater: " + s.getWater() + "\nMedicine: " 
-            + s.getMedicine() + "\nAmmo: " + s.getAmmo() + "\nSpare Parts: " + s.getSpareParts() 
-            + "\nCoins: " + s.getCoin());
+        StringBuilder sb = new StringBuilder();
+        if (s.getFood() > 0) sb.append("Food: ").append(s.getFood()).append("\n");
+        if (s.getWater() > 0) sb.append("Water: ").append(s.getWater()).append("\n");
+        if (s.getMedicine() > 0) sb.append("Medicine: ").append(s.getMedicine()).append("\n");
+        if (s.getAmmo() > 0) sb.append("Ammo: ").append(s.getAmmo()).append("\n");
+        if (s.getSpareParts() > 0) sb.append("Spare Parts: ").append(s.getSpareParts()).append("\n");
+        if (s.getCoin() > 0) sb.append("Coins: ").append(s.getCoin()).append("\n");
+        suppliesLabel.setText(sb.toString().trim());
     }
 
     private void updateFamilyStatusBox() {
         familyStatusBox.getChildren().clear();
         for (FamilyMember member : journey.getFamily().getMembers()) {
-            VBox cardBox = new VBox();
+            VBox cardBox = new VBox(10);
             cardBox.setAlignment(javafx.geometry.Pos.CENTER);
             cardBox.setPadding(new Insets(10));
             cardBox.setStyle("-fx-font-family: 'Rockwell'; -fx-border-color: limegreen; -fx-border-width: 3px; -fx-background-color: black; -fx-border-radius: 12px; -fx-background-radius: 12px;");
@@ -129,6 +134,42 @@ public class JourneyPane extends VBox {
             statusLabel.setMaxWidth(Double.MAX_VALUE);
             VBox.setVgrow(statusLabel, Priority.ALWAYS);
             cardBox.getChildren().add(statusLabel);
+
+            // Add action buttons as needed
+            VBox buttonBox = new VBox(5);
+            buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
+            if (member.isAlive()) {
+                if (member.needsFood()) {
+                    Button feedBtn = new Button("Feed");
+                    feedBtn.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 16px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
+                    feedBtn.setOnAction(e -> {
+                        member.feed();
+                        updateFamilyStatusBox();
+                    });
+                    buttonBox.getChildren().add(feedBtn);
+                }
+                if (member.needsWater()) {
+                    Button waterBtn = new Button("Give Water");
+                    waterBtn.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 16px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
+                    waterBtn.setOnAction(e -> {
+                        member.giveWater();
+                        updateFamilyStatusBox();
+                    });
+                    buttonBox.getChildren().add(waterBtn);
+                }
+                if (member.isSickOrInjured() && member.needsMedicine()) {
+                    Button healBtn = new Button("Heal");
+                    healBtn.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 16px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
+                    healBtn.setOnAction(e -> {
+                        member.heal();
+                        updateFamilyStatusBox();
+                    });
+                    buttonBox.getChildren().add(healBtn);
+                }
+            }
+            if (!buttonBox.getChildren().isEmpty()) {
+                cardBox.getChildren().add(buttonBox);
+            }
 
             familyStatusBox.getChildren().add(cardBox);
             HBox.setHgrow(cardBox, Priority.ALWAYS);

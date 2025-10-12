@@ -9,6 +9,9 @@ public class FamilyMember {
     private int waterInterval;
     private int medicineInterval;
     private boolean alive;
+    private int consecutiveHungryDays = 0;
+    private int consecutiveThirstyDays = 0;
+    private int consecutiveSickDays = 0;
 
     public FamilyMember(String name, int foodInterval, int waterInterval, int medicineInterval) {
         this.name = name;
@@ -44,33 +47,66 @@ public class FamilyMember {
         daysSinceLastFood++;
         daysSinceLastWater++;
         if (isSickOrInjured) daysSinceSickOrInjured++;
+
+        // Track consecutive hungry days
+        if (needsFood()) {
+            consecutiveHungryDays++;
+        } else {
+            consecutiveHungryDays = 0;
+        }
+        // Track consecutive thirsty days
+        if (needsWater()) {
+            consecutiveThirstyDays++;
+        } else {
+            consecutiveThirstyDays = 0;
+        }
+        // Track consecutive sick days
+        if (isSickOrInjured() && needsMedicine()) {
+            consecutiveSickDays++;
+        } else {
+            consecutiveSickDays = 0;
+        }
+        // Death check
+        if (consecutiveHungryDays >= 3 || consecutiveThirstyDays >= 3 || consecutiveSickDays >= 3) {
+            alive = false;
+        }
     }
 
     public boolean needsFood() { return daysSinceLastFood >= foodInterval; }
     public boolean needsWater() { return daysSinceLastWater >= waterInterval; }
     public boolean needsMedicine() { return isSickOrInjured && daysSinceSickOrInjured >= medicineInterval; }
 
-    public void feed() { daysSinceLastFood = 0; }
-    public void giveWater() { daysSinceLastWater = 0; }
-    public void heal() { isSickOrInjured = false; daysSinceSickOrInjured = 0; }
+    public void feed() {
+        daysSinceLastFood = 0;
+        consecutiveHungryDays = 0;
+    }
+    public void giveWater() {
+        daysSinceLastWater = 0;
+        consecutiveThirstyDays = 0;
+    }
+    public void heal() {
+        isSickOrInjured = false;
+        daysSinceSickOrInjured = 0;
+        consecutiveSickDays = 0;
+    }
 
     public String getStatusText() {
         if (!alive) {
-            return "has passed away.";
+            return "has perished.";
         }
         boolean famished = needsFood();
         boolean parched = needsWater();
         boolean sick = isSickOrInjured();
         if (famished && parched) {
-            return "is feeling famished and parched.";
+            return "is famished and parched.";
         } else if (famished) {
-            return "is feeling famished.";
+            return "is famished.";
         } else if (parched) {
-            return "is feeling parched.";
+            return "is parched.";
         } else if (sick) {
-            return "is not feeling well today.";
+            return "is sick.";
         } else {
-            return "is feeling okay today.";
+            return "feels fine.";
         }
     }
 }
