@@ -64,8 +64,11 @@ On launch, the start menu appears with the game name, a "New Game", "Continue" a
   After surviving 30 days successfully, the player will reach the 10th town which is the destination. The "Game Over" scene will launch with an additional message:
     "You have made it to your destination with " it will then list all living family members. If any family members died, a small "Rest in Peace" list with those who perished will appear as well. 
 
-  
-        
 
+MIDTERM PERP WORK:
+
+What I did: Created individual panes for the player to enter their name (NameEntryPane) and a settings pane that I will eventually add some settings. Started to add more game logic but added it into the JourneyPane at first until I realized thats stupid and added it to the GameJourney class like it was supposed to be in the first place. I updated the JourneyPane's layout to fit how I want the game to look and added the hunger/thirst logic for the family members. 
+
+What I want to do next: Implement the different events and their outcomes, create the panes for entering the town, general store, and saloons for the blackjack game implementation eventually. The plan is to get everything up and running and then adding animations and implementing the blackjack gameplay. 
 
       
