@@ -6,7 +6,7 @@ public class GameJourney {
     private boolean gameOver; 
     private Player player; 
     private Family family;
-    private ArrayList<Town> towns; // List of towns (for future expansion)
+    private ArrayList<Town> towns; // List of towns (TODO: town implementation)
 
     // Constructor
     public GameJourney(Player player, Family family) {

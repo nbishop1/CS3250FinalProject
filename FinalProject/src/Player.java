@@ -6,7 +6,7 @@ public class Player extends FamilyMember {
 
     // default constructor
     public Player(String name) {
-        super(name, 4, 3, 7); // Player: 1 food/4 days, 1 water/3 days, 1 medicine/7 days
+        super(name, 4, 3, 7); // Player: 1 food/4 days, 1 water/3 days
         this.supplies = new Supplies();
         this.supplies.setFood(10); // Starting inventory
         this.supplies.setWater(15);

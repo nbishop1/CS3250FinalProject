@@ -18,7 +18,7 @@ public class IntroPane extends BorderPane {
 
         String introText = "Howdy, " + playerName + "... " +
                 "You and your family are traveling to the west in search of riches in the form of gold. " +
-                "You have no skills, no talents, and hardly any money, so you resort to luck. Every three days, you will reach a new town where you will gamble to earn coins to fund your travels... Or lose it all and starve to death.\n\n" +
+                "You have no skills, no talents, and hardly any money, so you resort to luck. Every fifth day, you will reach a new town where you will gamble to earn coins to fund your travels... Or lose it all and starve to death.\n\n" +
                 "Starting inventory: Coin: 20  Food: 10  Water: 15  Ammunition: 2\n\n" +
                 "Every day, you must delegate food, water, or medicine depending on the needs of your family. " +
                 "Events may occur, and you must use your supplies wisely to survive.\n\n" +

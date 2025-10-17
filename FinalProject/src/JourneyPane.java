@@ -7,6 +7,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 public class JourneyPane extends VBox {
     private GameJourney journey;
@@ -60,6 +61,12 @@ public class JourneyPane extends VBox {
             updateDayLabel();
             updateSuppliesLabel(suppliesLabel);
             updateFamilyStatusBox();
+            // Switch to TownPane every five days
+            if (journey.getDay() % 5 == 0) {
+                Stage stage = (Stage) this.getScene().getWindow();
+                TownPane townPane = new TownPane(journey, stage);
+                stage.getScene().setRoot(townPane);
+            }
         });
         HBox buttonBox = new HBox(nextDayButton);
         buttonBox.setAlignment(javafx.geometry.Pos.BOTTOM_RIGHT);
