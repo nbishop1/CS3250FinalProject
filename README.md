@@ -20,12 +20,12 @@ On launch, the start menu appears with the game name, a "New Game", "Continue" a
 
   The first day begins on the path to the next town. It will take 2 more days to get there. 
 
-  Everyday, the player can delegate their food, water, or medicine depending on the needs of the family. Only after an event occurs, someone can get sick/injured. 
-    Player: Player. Requires 1 food every 4 days, 1 water every 3 days. Requires medicine 7 days after being sick/injured.
-    Mary: Wife. Requires 1 food every 3 days, 1 water every 2 days. Requires medicine 5 days after being sick/injured.
-    Uncle: Uncle. Requires 1 food every 3 days, 1 water every 2 days. Requires medicine 5 days after being sick/injured.
-    Luke: Son. Requires 1 food every day, 1 water every day. Requires medicine 3 days after being sick/injured.
-    Jessie: Daughter. Requires 1 food every day, 1 water every day. Requires medicine 3 days after being sick/injured.
+  Everyday, the player can delegate their food, water, or medicine depending on the needs of the family. Only after an event occurs, someone can get sick/injured. If needs for a family member are not met after 3 days, they die. 
+    Player: Player. Requires 1 food every 4 days, 1 water every 3 days.
+    Mary: Wife. Requires 1 food every 3 days, 1 water every 2 days. 
+    Uncle: Uncle. Requires 1 food every 3 days, 1 water every 2 days. 
+    Luke: Son. Requires 1 food every day, 1 water every day. 
+    Jessie: Daughter. Requires 1 food every day, 1 water every day. 
   
   Once the player decides to progress to the next day, there is a chance a single event will happen. These events can be "Caught by Outlaws", "I Broke the Gosh-dang Wheel", "Snake Bite", "Hello, Stranger". 
     If the player has gear in their inventory that can help them immediatly clear the event, the item will be forfeited in exchange for their safety.
@@ -64,8 +64,11 @@ On launch, the start menu appears with the game name, a "New Game", "Continue" a
   After surviving 30 days successfully, the player will reach the 10th town which is the destination. The "Game Over" scene will launch with an additional message:
     "You have made it to your destination with " it will then list all living family members. If any family members died, a small "Rest in Peace" list with those who perished will appear as well. 
 
-  
-        
 
+MIDTERM PERP WORK:
+
+What I did: Created individual panes for the player to enter their name (NameEntryPane) and a settings pane that I will eventually add some settings. Started to add more game logic but added it into the JourneyPane at first until I realized thats stupid and added it to the GameJourney class like it was supposed to be in the first place. I updated the JourneyPane's layout to fit how I want the game to look and added the hunger/thirst logic for the family members. 
+
+What I want to do next: Implement the different events and their outcomes, create the panes for entering the town, general store, and saloons for the blackjack game implementation eventually. The plan is to get everything up and running and then adding animations and implementing the blackjack gameplay. 
 
       
