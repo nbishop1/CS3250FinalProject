@@ -1,16 +1,8 @@
-// JourneyPane.java
-// This class is the main pane for the journey screen. It arranges the supplies, animation, and family status cards.
-// The layout is split into a top HBox (supplies + animation) and a bottom HBox (family status cards).
-// Supplies are shown on the left, the animation and day label on the right.
-// The animation is handled by JourneyAnimationView.
-// Family status cards are dynamically generated and allow actions (feed, water, heal) if available.
-
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
