@@ -1,3 +1,10 @@
+// JourneyPane.java
+// This class is the main pane for the journey screen. It arranges the supplies, animation, and family status cards.
+// The layout is split into a top HBox (supplies + animation) and a bottom HBox (family status cards).
+// Supplies are shown on the left, the animation and day label on the right.
+// The animation is handled by JourneyAnimationView.
+// Family status cards are dynamically generated and allow actions (feed, water, heal) if available.
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,8 +35,11 @@ public class JourneyPane extends VBox {
         VBox suppliesBox = new VBox(10);
         suppliesBox.setPadding(new Insets(30, 30, 30, 30));
         suppliesBox.setStyle("-fx-font-family: 'Rockwell'; -fx-border-color: limegreen; -fx-border-width: 3px; -fx-background-color: black;");
-        suppliesBox.setPrefWidth(400);
+        suppliesBox.setPrefWidth(340);
+        suppliesBox.setMinWidth(220);
+        suppliesBox.setMaxWidth(400);
         suppliesBox.setAlignment(javafx.geometry.Pos.TOP_LEFT);
+        VBox.setVgrow(suppliesBox, Priority.ALWAYS); // Let it grow vertically
         Label suppliesTitle = new Label("Supplies");
         suppliesTitle.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 30px; -fx-text-fill: limegreen;");
         Label suppliesLabel = new Label();
@@ -51,9 +61,13 @@ public class JourneyPane extends VBox {
         dayLabel.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 48px; -fx-text-fill: limegreen;");
         updateDayLabel();
         rightTop.getChildren().add(dayLabel);
-        Region animationSpace = new Region();
-        VBox.setVgrow(animationSpace, Priority.ALWAYS);
-        rightTop.getChildren().add(animationSpace);
+        // JourneyAnimationView displays the animated wagon, horse, and background
+        JourneyAnimationView animationView = new JourneyAnimationView();
+        animationView.setMinHeight(180);
+        animationView.setPrefHeight(320);
+        animationView.setMaxHeight(Double.MAX_VALUE); // Let it grow
+        VBox.setVgrow(animationView, Priority.ALWAYS); // Let it grow vertically
+        rightTop.getChildren().add(animationView);
         Button nextDayButton = new Button("Next Day");
         nextDayButton.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 20px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
         nextDayButton.setOnAction(event -> {
@@ -82,8 +96,8 @@ public class JourneyPane extends VBox {
         line.widthProperty().bind(this.widthProperty());
 
         // Bottom half: HBox for family statuses only
-        familyStatusBox = new HBox();
-        familyStatusBox.setPadding(new Insets(40, 0, 0, 0));
+        familyStatusBox = new HBox(16); // Add spacing between cards
+        familyStatusBox.setPadding(new Insets(40, 16, 16, 16));
         familyStatusBox.setAlignment(javafx.geometry.Pos.CENTER);
         updateFamilyStatusBox();
 
@@ -110,14 +124,21 @@ public class JourneyPane extends VBox {
     }
 
     private void updateFamilyStatusBox() {
+        // Dynamically create a card for each family member, showing their status and available actions
         familyStatusBox.getChildren().clear();
+        int memberCount = journey.getFamily().getMembers().size();
         for (FamilyMember member : journey.getFamily().getMembers()) {
             VBox cardBox = new VBox(10);
             cardBox.setAlignment(javafx.geometry.Pos.CENTER);
             cardBox.setPadding(new Insets(10));
             cardBox.setStyle("-fx-font-family: 'Rockwell'; -fx-border-color: limegreen; -fx-border-width: 3px; -fx-background-color: black; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+            cardBox.setMinWidth(160);
+            cardBox.setPrefWidth(Math.max(180, familyStatusBox.getWidth() / Math.max(1, memberCount) - 32));
             cardBox.setMaxWidth(Double.MAX_VALUE);
             cardBox.setMinHeight(80);
+            cardBox.setPrefHeight(120);
+            cardBox.setMaxHeight(Double.MAX_VALUE);
+            HBox.setHgrow(cardBox, Priority.ALWAYS); // Let cards grow horizontally
 
             Label statusLabel = new Label(member.getName() + " " + member.getStatusText());
             statusLabel.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 20px; -fx-text-fill: limegreen;");
@@ -128,6 +149,7 @@ public class JourneyPane extends VBox {
 
             VBox buttonBox = new VBox(5);
             buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
+            // Add action buttons if the member is alive and actions are available
             if (member.isAlive()) {
                 if (journey.canFeed(member)) {
                     Button feedBtn = new Button("Feed");
