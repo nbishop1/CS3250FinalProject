@@ -1,7 +1,6 @@
-
 public class CardDealer {
 	private CardHand hand;
-	
+
 	// default constructor
 	public CardDealer() {
 		this.hand = new CardHand();
@@ -11,15 +10,22 @@ public class CardDealer {
 	public CardHand getHand() {
 		return hand;
 	}
-	
+
 	// method signatures
 	public void startDeal(CardDeck deck, CardHand playerHand) {
-		// deal two cards to player and dealer at blackjack game start
+		hand.clear();
+		playerHand.clear();
+		// Deal two cards to player and dealer
+		playerHand.addCard(deck.draw());
+		hand.addCard(deck.draw());
+		playerHand.addCard(deck.draw());
+		hand.addCard(deck.draw());
 	}
-	
+
 	public void dealersTurn(CardDeck deck) {
-		// deal a single card if dealer's hand is < 17
+		// Dealer draws until hand value is 17 or more
+		while (hand.getBestValue() < 17) {
+			hand.addCard(deck.draw());
+		}
 	}
-
-
 }

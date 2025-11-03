@@ -73,4 +73,7 @@ public class Supplies {
 		this.ammo += ammo;
 		this.coin += coin;
 	}
+	public void addCoin(int amount) {
+	    this.coin += amount;
+	}
 }

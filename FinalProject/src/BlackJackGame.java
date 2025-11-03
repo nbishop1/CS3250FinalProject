@@ -1,4 +1,3 @@
-
 public class BlackJackGame {
 	private CardDeck deck;
 	private CardDealer dealer;
@@ -21,21 +20,39 @@ public class BlackJackGame {
 	// method signatures
 	
 	public void playFor(Player player) {
-		// start turn loop
-		// 	1. dealer deals hand
-		// 2. player hits or stands
-		// 3. player calls or increases bet
-		// 4. repeat
+		deck.reset();
+		CardHand playerHand = new CardHand();
+		int bet = placeBet(player, 1); // For now, always bet 1 coin
+		if (bet == 0) return; // Not enough coins
+		dealer.startDeal(deck, playerHand);
+		// Player turn: hit until 17 or higher (auto for now)
+		while (playerHand.getBestValue() < 17 && !playerHand.isBust()) {
+			playerHand.addCard(deck.draw());
+		}
+		// Dealer turn
+		dealer.dealersTurn(deck);
+		// End round
+		roundEnd(player, playerHand, dealer.getHand(), bet);
 	}
 	
 	public int placeBet(Player player, int amount) {
-		// player validates their bet and coins are subtracted from playable amount
-		return 0;
+		if (player.getSupplies().getCoin() < amount) return 0;
+		player.getSupplies().spendCoin(amount);
+		return amount;
 	}
 	
 	public void roundEnd(Player player, CardHand playerHand, CardHand dealerHand, int bet) {
-		// payout to the player or the house 
+		int playerValue = playerHand.getBestValue();
+		int dealerValue = dealerHand.getBestValue();
+		if (playerHand.isBust()) {
+			// Player busts, loses bet
+			return;
+		} else if (dealerHand.isBust() || playerValue > dealerValue) {
+			// Player wins, pays 2x bet
+			player.getSupplies().addCoin(bet * 2);
+		} else if (playerValue == dealerValue) {
+			// Push, return bet
+			player.getSupplies().addCoin(bet);
+		} // else: dealer wins, player loses bet
 	}
-	
-
 }
