@@ -17,7 +17,6 @@ public class TownPane extends BorderPane {
     public TownPane(GameJourney journey, Stage primaryStage) {
         this.setStyle("-fx-background-color: black;");
 
-        // Top: Town image with day label overlay (cropped 20px top/bottom)
         Image townImg = new Image(getClass().getResourceAsStream("images/TownTown.png"));
         ImageView townImage = new ImageView(townImg);
         townImage.setPreserveRatio(true);
@@ -26,16 +25,14 @@ public class TownPane extends BorderPane {
         Label dayLabel = new Label("Day " + journey.getDay());
         dayLabel.setStyle("-fx-font-size: 48px; -fx-font-family: 'Rockwell'; -fx-font-weight: bold; -fx-text-fill: limegreen; -fx-background-color: rgba(0,0,0,0.5);");
 
-        // Sprite at bottom center
         Image spriteImg = new Image(getClass().getResourceAsStream("images/player.png"));
         ImageView spriteView = new ImageView(spriteImg);
         spriteView.setPreserveRatio(true);
         spriteView.setSmooth(true);
-        // Create imageStack first
         StackPane imageStack = new StackPane(townImage, dayLabel, spriteView);
         StackPane.setAlignment(dayLabel, Pos.TOP_CENTER);
         StackPane.setAlignment(spriteView, Pos.BOTTOM_CENTER);
-        // Responsive resizing: bind fitHeight to 20% of imageStack height, with min/max
+        // Responsive resizing for sprite
         spriteView.fitHeightProperty().bind(imageStack.heightProperty().multiply(0.25));
         imageStack.heightProperty().addListener((obs, oldVal, newVal) -> {
             double h = newVal.doubleValue() * 0.25;
@@ -43,7 +40,6 @@ public class TownPane extends BorderPane {
             else if (h > 220) spriteView.setFitHeight(220);
         });
 
-        // Buttons row: left, center, right
         Button saloonBtn = new Button("Enter Saloon");
         Button leaveBtn = new Button("Leave Town");
         Button storeBtn = new Button("Enter General Store");
@@ -59,14 +55,13 @@ public class TownPane extends BorderPane {
         buttonBox.setPadding(new Insets(0, 0, 10, 0));
         buttonBox.prefWidthProperty().bind(this.widthProperty());
 
-        // Button actions
         leaveBtn.setOnAction(event -> {
             journey.nextDay();
             primaryStage.getScene().setRoot(new JourneyPane(journey));
         });
         saloonBtn.setOnAction(event -> {
             // Animate sprite to left (saloon door)
-            double targetX = -imageStack.getWidth() / 2 + imageStack.getWidth() * 0.20; // 20% from left edge
+            double targetX = -imageStack.getWidth() / 2 + imageStack.getWidth() * 0.20;
             TranslateTransition tt = new TranslateTransition(Duration.millis(1500), spriteView);
             tt.setToX(targetX);
             tt.setOnFinished(e -> primaryStage.getScene().setRoot(new SaloonPane(journey, primaryStage)));
@@ -74,7 +69,7 @@ public class TownPane extends BorderPane {
         });
         storeBtn.setOnAction(event -> {
             // Animate sprite to right (general store door)
-            double targetX = imageStack.getWidth() / 2 - imageStack.getWidth() * 0.18; // 18% from right edge
+            double targetX = imageStack.getWidth() / 2 - imageStack.getWidth() * 0.18;
             TranslateTransition tt = new TranslateTransition(Duration.millis(1500), spriteView);
             tt.setToX(targetX);
             tt.setOnFinished(e -> primaryStage.getScene().setRoot(new GeneralStorePane(journey, primaryStage)));
@@ -84,6 +79,5 @@ public class TownPane extends BorderPane {
         VBox topBox = new VBox(imageStack, buttonBox);
         topBox.setAlignment(Pos.TOP_CENTER);
         setTop(topBox);
-
     }
 }

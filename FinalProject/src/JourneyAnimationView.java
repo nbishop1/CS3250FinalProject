@@ -36,11 +36,9 @@ public class JourneyAnimationView extends StackPane {
         this.getChildren().add(canvas);
         // Bind canvas size to the view size and redraw on resize
         widthProperty().addListener((obs, oldVal, newVal) -> {
-            canvas.setWidth(newVal.doubleValue());
             draw();
         });
         heightProperty().addListener((obs, oldVal, newVal) -> {
-            canvas.setHeight(newVal.doubleValue());
             draw();
         });
         canvas.widthProperty().bind(widthProperty());

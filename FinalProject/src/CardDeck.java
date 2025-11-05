@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class CardDeck {
     private ArrayList<Card> cards;
@@ -8,12 +10,20 @@ public class CardDeck {
     public CardDeck() {
         this.cards = new ArrayList<>();
         reset();
+        cardBackImage = new Image(getClass().getResourceAsStream(CARD_BACK_PATH));
     }
 
     // setters and getters
     public ArrayList<Card> getCards() {
         return cards;
     }
+
+    private static final int CARD_COLS = 13;
+    private static final int CARD_ROWS = 4;
+    private static final int CARD_WIDTH = 1897; // px
+    private static final int CARD_HEIGHT = 1877; // px
+    private static final String CARD_BACK_PATH = "/images/CardBack.png";
+    private Image cardBackImage;
 
     // method signatures
 
@@ -38,5 +48,13 @@ public class CardDeck {
             cards.add(new Card(suit, "A", 11));
         }
         shuffle();
+    }
+
+    public ImageView getCardBackImageView() {
+        ImageView iv = new ImageView(cardBackImage);
+        iv.setFitWidth(90);
+        iv.setFitHeight(130);
+        iv.setPreserveRatio(true);
+        return iv;
     }
 }
