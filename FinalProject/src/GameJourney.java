@@ -7,6 +7,7 @@ public class GameJourney {
     private Player player; 
     private Family family;
     private ArrayList<Town> towns; // List of towns (TODO: town implementation)
+    private Town currentTown;
 
     // Constructor
     public GameJourney(Player player, Family family) {
@@ -15,6 +16,14 @@ public class GameJourney {
         this.player = player;
         this.family = family;
         this.towns = new ArrayList<>();
+        this.currentTown = null;
+        // Initialize 9 towns and 1 destination
+        BlackJackGame blackjackGame = new BlackJackGame(player);
+        for (int i = 1; i <= 9; i++) {
+            new Town("Town " + i, blackjackGame, this);
+        }
+        new Town("Destination", blackjackGame, this);
+        // The first town is set as current by Town constructor if currentTown is null
     }
 
     // Getters
@@ -23,6 +32,14 @@ public class GameJourney {
     public Player getPlayer() { return player; }
     public Family getFamily() { return family; }
     public ArrayList<Town> getTowns() { return towns; }
+    public Town getCurrentTown() {
+        return currentTown;
+    }
+
+    // Setters
+    public void setCurrentTown(Town town) {
+        this.currentTown = town;
+    }
 
     // Advance day and update family members
     public void nextDay() {

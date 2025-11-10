@@ -72,7 +72,19 @@ public class TownPane extends BorderPane {
             double targetX = imageStack.getWidth() / 2 - imageStack.getWidth() * 0.18;
             TranslateTransition tt = new TranslateTransition(Duration.millis(1500), spriteView);
             tt.setToX(targetX);
-            tt.setOnFinished(e -> primaryStage.getScene().setRoot(new GeneralStorePane(journey, primaryStage)));
+            tt.setOnFinished(e -> {
+                if (journey.getCurrentTown() == null) {
+                    if (!journey.getTowns().isEmpty()) {
+                        journey.setCurrentTown(journey.getTowns().get(0));
+                    } else {
+                        System.out.println("No towns available. Cannot open GeneralStorePane.");
+                        return;
+                    }
+                }
+                primaryStage.getScene().setRoot(
+                    new GeneralStorePane(journey, journey.getCurrentTown(), journey.getPlayer(), primaryStage)
+                );
+            });
             tt.play();
         });
 

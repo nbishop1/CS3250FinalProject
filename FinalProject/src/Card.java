@@ -38,7 +38,6 @@ public class Card {
 	}
 	
 	public Node getCardNode(boolean faceUp) {
-        // Removed debug print to reduce console overhead
         double cardWidth = 90;
         double cardHeight = 130;
         double arc = 15;

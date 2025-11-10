@@ -1,54 +1,59 @@
 import java.util.ArrayList;
 
 public class Town {
-	private String name;
-	private GeneralStore store;
-	private BlackJackGame blackjackGame;
-	private ArrayList<Event> events;
-	
-	// default constructor
-	public Town(String name, GeneralStore store, BlackJackGame blackjackGame) {
-		this.setName(name);
-		this.store = store;
-		this.blackjackGame = blackjackGame;
-	}
-	
-	
-	// setters and getters
-	
-	public String getName() {
-		return name;
-	}
+    private static int storeCounter = 0; // Unique storeId for each town
+    private String name;
+    private GeneralStore store;
+    private BlackJackGame blackjackGame;
+    private ArrayList<Event> events;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    // default constructor
+    public Town(String name, BlackJackGame blackjackGame, GameJourney journey) {
+        this.setName(name);
+        this.store = new GeneralStore(storeCounter++); // Unique store per town
+        this.blackjackGame = blackjackGame;
+        journey.getTowns().add(this);
+        if (journey.getCurrentTown() == null) {
+            journey.setCurrentTown(this);
+        }
+    }
 
 
-	public GeneralStore getStore() {
-		return store;
-	}
+    // setters and getters
 
-	public BlackJackGame getBlackjackGame() {
-		return blackjackGame;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public ArrayList<Event> getEvents() {
-		return events;
-	}
-	
-	// method signatures
-	
-	public void enterTown(Player player) {
-		// show store and allow new blackjack game
-	}
-	
-	public void visitStore(Player player) {
-		// open the store for the player
-	}
-	
-	public void playBlackjack(Player player) {
-		// play the blackjack game for the player
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public GeneralStore getStore() {
+        return store;
+    }
+
+    public BlackJackGame getBlackjackGame() {
+        return blackjackGame;
+    }
+
+    public ArrayList<Event> getEvents() {
+        return events;
+    }
+
+    // method signatures
+
+    public void enterTown(Player player) {
+        // show store and allow new blackjack game
+    }
+
+    public void visitStore(Player player) {
+        // open the store for the player
+    }
+
+    public void playBlackjack(Player player) {
+        // play the blackjack game for the player
+    }
 
 }
