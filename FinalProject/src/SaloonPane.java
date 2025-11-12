@@ -34,25 +34,30 @@ public class SaloonPane extends BorderPane {
         inProgress = false;
 
         Label dealerLabel = new Label("Dealer");
-        dealerLabel.setFont(Font.font("Rockwell", 25)); 
+        dealerLabel.setFont(Font.font("Rockwell", 40));
         dealerLabel.setTextFill(Color.LIMEGREEN);
-        dealerCards = new HBox(10);
+        dealerCards = new HBox(30);
         dealerCards.setAlignment(Pos.CENTER);
-        VBox dealerBox = new VBox(5, dealerLabel, dealerCards); 
+        dealerCards.setPrefHeight(220);
+        VBox dealerBox = new VBox(15, dealerLabel, dealerCards);
         dealerBox.setAlignment(Pos.CENTER);
+        dealerBox.setPrefHeight(300);
 
         Label playerLabel = new Label("Player");
-        playerLabel.setFont(Font.font("Rockwell", 25));
+        playerLabel.setFont(Font.font("Rockwell", 40));
         playerLabel.setTextFill(Color.LIMEGREEN);
-        playerCards = new HBox(10); 
+        playerCards = new HBox(30);
         playerCards.setAlignment(Pos.CENTER);
-        VBox playerBox = new VBox(5, playerLabel, playerCards);
+        playerCards.setPrefHeight(220);
+        VBox playerBox = new VBox(15, playerLabel, playerCards);
         playerBox.setAlignment(Pos.CENTER);
+        playerBox.setPrefHeight(300);
 
         statusLabel = new Label("");
-        statusLabel.setFont(Font.font("Rockwell", 20)); 
+        statusLabel.setFont(Font.font("Rockwell", 30));
         statusLabel.setTextFill(Color.LIMEGREEN);
         statusLabel.setAlignment(Pos.CENTER);
+        statusLabel.setPrefHeight(60);
 
         betBtn = new Button("BET");
         hitBtn = new Button("HIT");
@@ -62,9 +67,10 @@ public class SaloonPane extends BorderPane {
         styleGameButton(hitBtn);
         styleGameButton(standBtn);
         styleGameButton(exitBtn);
-        HBox buttonBox = new HBox(20, betBtn, hitBtn, standBtn, exitBtn); 
+        HBox buttonBox = new HBox(40, betBtn, hitBtn, standBtn);
         buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setPadding(new Insets(10, 0, 10, 0)); 
+        buttonBox.setPadding(new Insets(20, 0, 20, 0));
+        buttonBox.setPrefHeight(80);
 
         coinsLabel = new Label();
         standingLabel = new Label();
@@ -72,19 +78,24 @@ public class SaloonPane extends BorderPane {
         styleInfoLabel(standingLabel);
         betField = new javafx.scene.control.TextField();
         betField.setText("0");
-        betField.setPrefWidth(50); 
-        betField.setFont(Font.font("Rockwell", 20)); 
-        betField.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-width: 1px;");
+        betField.setPrefWidth(80);
+        betField.setFont(Font.font("Rockwell", 30));
+        betField.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-width: 2px;");
         betField.textProperty().addListener((obs, oldVal, newVal) -> validateBetInput());
-        HBox betControlBox = new HBox(20, betField, betBtn); 
+        HBox betControlBox = new HBox(30, betField, betBtn);
         betControlBox.setAlignment(Pos.CENTER_LEFT);
-        HBox infoBox = new HBox(20, coinsLabel, betControlBox, standingLabel); 
+        HBox infoBox = new HBox(40, coinsLabel, betControlBox, standingLabel, exitBtn);
         infoBox.setAlignment(Pos.CENTER);
-        infoBox.setPadding(new Insets(5, 0, 10, 0)); 
+        infoBox.setPadding(new Insets(10, 0, 20, 0));
+        infoBox.setPrefHeight(60);
 
-        VBox mainBox = new VBox(15, dealerBox, playerBox, statusLabel, buttonBox, infoBox); 
+        VBox mainBox = new VBox(30, dealerBox, playerBox, statusLabel, buttonBox, infoBox);
         mainBox.setAlignment(Pos.TOP_CENTER);
-        mainBox.setPadding(new Insets(10, 0, 0, 0)); 
+        mainBox.setPadding(new Insets(20, 0, 0, 0));
+        mainBox.setPrefWidth(1200);
+        mainBox.setPrefHeight(900);
+        VBox.setVgrow(dealerBox, javafx.scene.layout.Priority.ALWAYS);
+        VBox.setVgrow(playerBox, javafx.scene.layout.Priority.ALWAYS);
         setCenter(mainBox);
 
         betBtn.setOnAction(e -> startNewGame());
@@ -99,12 +110,13 @@ public class SaloonPane extends BorderPane {
     }
 
     private void styleGameButton(Button btn) {
-        btn.setFont(Font.font("Rockwell", 20)); 
-        btn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-radius: 5px;");
-        btn.setPrefWidth(100);
+        btn.setFont(Font.font("Rockwell", 30));
+        btn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-radius: 8px;");
+        btn.setPrefWidth(140);
+        btn.setPrefHeight(60);
     }
     private void styleInfoLabel(Label lbl) {
-        lbl.setFont(Font.font("Rockwell", 20)); 
+        lbl.setFont(Font.font("Rockwell", 30));
         lbl.setTextFill(Color.LIMEGREEN);
     }
     private void setButtonVisibility(boolean bet, boolean hit, boolean stand) {
@@ -169,7 +181,15 @@ public class SaloonPane extends BorderPane {
         int playerValue = game.getPlayerHand().getBestValue();
         int dealerValue = game.getDealerHand().getBestValue();
         String result = game.getGameResult();
-        statusLabel.setText(String.format("Player: %d  Dealer: %d\n%s", playerValue, dealerValue, result));
+        if (result == null || result.isEmpty()) {
+            game.endGame();
+            result = game.getGameResult();
+        }
+        if (result != null && !result.isEmpty()) {
+            statusLabel.setText(String.format("Player: %d  Dealer: %d\n%s", playerValue, dealerValue, result));
+        } else {
+            statusLabel.setText(String.format("Player: %d  Dealer: %d", playerValue, dealerValue));
+        }
     }
 
     private void updateAllDisplays() {
@@ -214,11 +234,5 @@ public class SaloonPane extends BorderPane {
             standingLabel.setText("Current Standing: " + playerHand.getBestValue());
         }
     }
-    private ImageView getCardBackImageView() {
-        ImageView iv = new ImageView(cardBack);
-        iv.setFitWidth(90);
-        iv.setFitHeight(130);
-        iv.setPreserveRatio(true);
-        return iv;
-    }
+
 }
