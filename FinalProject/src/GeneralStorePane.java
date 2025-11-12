@@ -121,6 +121,7 @@ public class GeneralStorePane extends BorderPane {
         invTitle.setTextFill(Color.LIMEGREEN);
         invGrid.add(invTitle, 0, 0, 5, 1);
         String[] invNames = {"Food", "Water", "Ammo", "Medicine", "SpareParts"};
+        HashMap<String, Label> invQtyLabels = new HashMap<>();
         for (int i = 0; i < invNames.length; i++) {
             Label name = new Label(invNames[i].replace("SpareParts", "Spare Parts"));
             name.setTextFill(Color.LIMEGREEN);
@@ -138,6 +139,7 @@ public class GeneralStorePane extends BorderPane {
             Label qty = new Label(String.valueOf(val));
             qty.setTextFill(Color.LIMEGREEN);
             invGrid.add(qty, i, 2);
+            invQtyLabels.put(invNames[i], qty);
         }
         VBox invBox = new VBox(invGrid);
         invBox.setAlignment(Pos.CENTER);
@@ -184,16 +186,16 @@ public class GeneralStorePane extends BorderPane {
                 }
                 coinsLabel.setText("Coins: ¢" + supplies.getCoin());
                 // Update inventory table
-                for (int i = 0; i < invNames.length; i++) {
+                for (String invName : invNames) {
                     int val = 0;
-                    switch (invNames[i]) {
+                    switch (invName) {
                         case "Food": val = supplies.getFood(); break;
                         case "Water": val = supplies.getWater(); break;
                         case "Ammo": val = supplies.getAmmo(); break;
                         case "Medicine": val = supplies.getMedicine(); break;
                         case "SpareParts": val = supplies.getSpareParts(); break;
                     }
-                    ((Label)invGrid.getChildren().get(i + 10)).setText(String.valueOf(val));
+                    invQtyLabels.get(invName).setText(String.valueOf(val));
                 }
                 updateTotalCost.run();
             } else {

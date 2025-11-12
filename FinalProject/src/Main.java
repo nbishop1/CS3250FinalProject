@@ -11,8 +11,10 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Scene scene = new Scene(new StartUpPane(primaryStage), 800, 600);
+		Scene scene = new Scene(new StartUpPane(primaryStage));
 		primaryStage.setScene(scene);
+		primaryStage.setMaximized(true);
+		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 
