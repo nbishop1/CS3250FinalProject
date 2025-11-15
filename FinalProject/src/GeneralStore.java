@@ -12,11 +12,11 @@ public class GeneralStore {
         items = new ArrayList<>();
         itemPrices = new HashMap<>();
         Random rand = new Random();
-        // Food: 2 coins, 5-20 units
-        items.add(new Item("Food", rand.nextInt(16) + 5));
+        // Food: 2 coins, 5-10 units
+        items.add(new Item("Food", rand.nextInt(6) + 5));
         itemPrices.put("Food", 2);
-        // Water: 2 coins, 5-20 units
-        items.add(new Item("Water", rand.nextInt(16) + 5));
+        // Water: 2 coins, 5-10 units
+        items.add(new Item("Water", rand.nextInt(6) + 5));
         itemPrices.put("Water", 2);
         // Ammo: 10 + 10*storeId coins, 2 units
         items.add(new Item("Ammo", 2));

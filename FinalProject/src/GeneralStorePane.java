@@ -46,28 +46,42 @@ public class GeneralStorePane extends BorderPane {
             int stock = item != null ? item.getQuantity() : 0;
             selectedQty.put(itemName, 0);
 
-            VBox box = new VBox(5);
+            VBox box = new VBox(12); // More vertical spacing
             box.setStyle("-fx-border-color: limegreen; -fx-border-width: 2; -fx-background-color: black;");
-            box.setPadding(new Insets(10));
+            box.setPadding(new Insets(18));
             box.setAlignment(Pos.CENTER);
+            box.setPrefWidth(220);
+            box.setPrefHeight(180);
+            box.setMinWidth(220);
+            box.setMinHeight(180);
+
             Label nameLabel = new Label(itemName.replace("SpareParts", "Spare Parts"));
-            nameLabel.setFont(Font.font("Rockwell", 20));
+            nameLabel.setFont(Font.font("Rockwell", 26));
             nameLabel.setTextFill(Color.LIMEGREEN);
             Label stockLabel = new Label("Stock: " + stock);
+            stockLabel.setFont(Font.font("Rockwell", 20));
             stockLabel.setTextFill(Color.LIMEGREEN);
             stockLabels.put(itemName, stockLabel);
             Label priceLabel = new Label("Cost: ¢" + price);
+            priceLabel.setFont(Font.font("Rockwell", 20));
             priceLabel.setTextFill(Color.LIMEGREEN);
-            HBox qtyBox = new HBox(5);
+            HBox qtyBox = new HBox(10);
             qtyBox.setAlignment(Pos.CENTER);
             Button minusBtn = new Button("-");
+            minusBtn.setFont(Font.font("Rockwell", 20));
+            minusBtn.setPrefWidth(40);
+            minusBtn.setPrefHeight(40);
             minusBtn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen;");
             TextField qtyField = new TextField("0");
-            qtyField.setPrefWidth(30);
+            qtyField.setPrefWidth(50);
+            qtyField.setFont(Font.font("Rockwell", 20));
             qtyField.setAlignment(Pos.CENTER);
             qtyField.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen;");
             qtyFields.put(itemName, qtyField);
             Button plusBtn = new Button("+");
+            plusBtn.setFont(Font.font("Rockwell", 20));
+            plusBtn.setPrefWidth(40);
+            plusBtn.setPrefHeight(40);
             plusBtn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen;");
             minusBtn.setOnAction(e -> {
                 int val = Integer.parseInt(qtyField.getText());
@@ -88,48 +102,24 @@ public class GeneralStorePane extends BorderPane {
             itemGrid.add(box, col++, row);
             if (col == 3) { col = 0; row++; }
         }
+        itemGrid.setMaxWidth(Double.MAX_VALUE);
 
-        // Coins, confirm purchase, exit
-        Label coinsLabel = new Label("Coins: ¢" + supplies.getCoin());
-        coinsLabel.setFont(Font.font("Rockwell", 18));
-        coinsLabel.setTextFill(Color.LIMEGREEN);
-        Button confirmBtn = new Button("Confirm Purchase");
-        confirmBtn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-font-size: 16px;");
-        Button exitBtn = new Button("Exit");
-        exitBtn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-font-size: 16px;");
-        VBox rightBox = new VBox(15, coinsLabel, confirmBtn, exitBtn);
-        rightBox.setAlignment(Pos.CENTER_LEFT);
-        rightBox.setPadding(new Insets(10, 0, 0, 30));
-
-        // Total cost
-        Label totalCostLabel = new Label("Total Cost: ¢0");
-        totalCostLabel.setFont(Font.font("Rockwell", 18));
-        totalCostLabel.setTextFill(Color.LIMEGREEN);
-        totalCostLabel.setAlignment(Pos.CENTER);
-        VBox centerBox = new VBox(10, itemGrid, totalCostLabel);
-        centerBox.setAlignment(Pos.CENTER);
-
-        // Inventory table
-        GridPane invGrid = new GridPane();
-        invGrid.setStyle("-fx-border-color: limegreen; -fx-border-width: 2; -fx-background-color: black;");
-        invGrid.setAlignment(Pos.CENTER);
-        invGrid.setPadding(new Insets(10));
-        invGrid.setHgap(20);
-        invGrid.setVgap(5);
-        Label invTitle = new Label("Current Inventory");
-        invTitle.setFont(Font.font("Rockwell", 18));
+        // Inventory table (now as a single row of VBoxes)
+        Label invTitle = new Label("Current Inventory:");
+        invTitle.setFont(Font.font("Rockwell", 26));
         invTitle.setTextFill(Color.LIMEGREEN);
-        invGrid.add(invTitle, 0, 0, 5, 1);
+        HBox invRow = new HBox(40); // spacing between items
+        invRow.setAlignment(Pos.CENTER);
         String[] invNames = {"Food", "Water", "Ammo", "Medicine", "SpareParts"};
         HashMap<String, Label> invQtyLabels = new HashMap<>();
-        for (int i = 0; i < invNames.length; i++) {
-            Label name = new Label(invNames[i].replace("SpareParts", "Spare Parts"));
+        for (String invName : invNames) {
+            VBox itemBox = new VBox(8);
+            itemBox.setAlignment(Pos.CENTER);
+            Label name = new Label(invName.replace("SpareParts", "Spare Parts"));
+            name.setFont(Font.font("Rockwell", 22));
             name.setTextFill(Color.LIMEGREEN);
-            invGrid.add(name, i, 1);
-        }
-        for (int i = 0; i < invNames.length; i++) {
             int val = 0;
-            switch (invNames[i]) {
+            switch (invName) {
                 case "Food": val = supplies.getFood(); break;
                 case "Water": val = supplies.getWater(); break;
                 case "Ammo": val = supplies.getAmmo(); break;
@@ -137,18 +127,37 @@ public class GeneralStorePane extends BorderPane {
                 case "SpareParts": val = supplies.getSpareParts(); break;
             }
             Label qty = new Label(String.valueOf(val));
+            qty.setFont(Font.font("Rockwell", 26));
             qty.setTextFill(Color.LIMEGREEN);
-            invGrid.add(qty, i, 2);
-            invQtyLabels.put(invNames[i], qty);
+            invQtyLabels.put(invName, qty);
+            itemBox.getChildren().addAll(name, qty);
+            invRow.getChildren().add(itemBox);
         }
-        VBox invBox = new VBox(invGrid);
+        VBox invBox = new VBox(10, invTitle, invRow);
         invBox.setAlignment(Pos.CENTER);
         invBox.setPadding(new Insets(20, 0, 0, 0));
 
+        // Controls row: Total cost, coins, confirm, exit
+        Label totalCostLabel = new Label("Total Cost: ¢0");
+        totalCostLabel.setFont(Font.font("Rockwell", 18));
+        totalCostLabel.setTextFill(Color.LIMEGREEN);
+        totalCostLabel.setAlignment(Pos.CENTER);
+        Label coinsLabel = new Label("Coins: ¢" + supplies.getCoin());
+        coinsLabel.setFont(Font.font("Rockwell", 18));
+        coinsLabel.setTextFill(Color.LIMEGREEN);
+        Button confirmBtn = new Button("Confirm Purchase");
+        confirmBtn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-font-size: 16px;");
+        Button exitBtn = new Button("Exit");
+        exitBtn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-font-size: 16px;");
+        HBox controlsBox = new HBox(40, totalCostLabel, coinsLabel, confirmBtn, exitBtn);
+        controlsBox.setAlignment(Pos.CENTER);
+        controlsBox.setPadding(new Insets(20, 0, 0, 0));
+
+        VBox centerBox = new VBox(20, itemGrid, controlsBox);
+        centerBox.setAlignment(Pos.CENTER);
+
         // Layout
-        HBox mainBox = new HBox(40, centerBox, rightBox);
-        mainBox.setAlignment(Pos.CENTER);
-        VBox allBox = new VBox(mainBox, invBox);
+        VBox allBox = new VBox(centerBox, invBox);
         allBox.setAlignment(Pos.CENTER);
         setCenter(allBox);
 
@@ -185,7 +194,7 @@ public class GeneralStorePane extends BorderPane {
                     stockLabels.get(itemName).setText("Stock: " + store.getStock(itemName));
                 }
                 coinsLabel.setText("Coins: ¢" + supplies.getCoin());
-                // Update inventory table
+                // Update inventory row
                 for (String invName : invNames) {
                     int val = 0;
                     switch (invName) {
