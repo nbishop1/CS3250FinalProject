@@ -95,8 +95,13 @@ public class BlackJackGame {
         int dealerValue = dealer.getHand().getBestValue();
         boolean playerBust = playerHand.isBust();
         boolean dealerBust = dealer.getHand().isBust();
+        boolean playerBlackjack = (playerHand.getCards().size() == 2 && playerValue == 21);
         if (playerBust) {
             result = "You bust! Dealer wins.";
+        } else if (playerBlackjack && !dealerBust && dealerValue != 21) {
+            result = "Blackjack! You win!";
+            saloonLedger += betAmount * 2.5; // Blackjack pays 3:2
+            if (player != null) player.getSupplies().setCoin(saloonLedger);
         } else if (dealerBust) {
             result = "Dealer busts! You win!";
             saloonLedger += betAmount * 2;
@@ -109,7 +114,7 @@ public class BlackJackGame {
             result = "Dealer wins.";
             if (player != null) player.getSupplies().setCoin(saloonLedger);
         } else {
-            result = "Push (tie).";
+            result = playerBlackjack ? "Push (tie) with Blackjack!" : "Push (tie).";
             saloonLedger += betAmount;
             if (player != null) player.getSupplies().setCoin(saloonLedger);
         }

@@ -3,7 +3,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,6 +21,7 @@ public class SaloonPane extends BorderPane {
     private BlackJackGame game;
     private boolean inProgress;
     private Label coinsLabel, standingLabel;
+    private Label resultLabel; // New label for round result
     private javafx.scene.control.TextField betField;
     private int currentBet = 0;
     private Player player;
@@ -57,7 +57,15 @@ public class SaloonPane extends BorderPane {
         statusLabel.setFont(Font.font("Rockwell", 30));
         statusLabel.setTextFill(Color.LIMEGREEN);
         statusLabel.setAlignment(Pos.CENTER);
-        statusLabel.setPrefHeight(60);
+        statusLabel.setPrefHeight(60); // Only for player/dealer values
+        statusLabel.setWrapText(true);
+
+        resultLabel = new Label(""); // New result label
+        resultLabel.setFont(Font.font("Rockwell", 32));
+        resultLabel.setTextFill(Color.LIMEGREEN);
+        resultLabel.setAlignment(Pos.CENTER);
+        resultLabel.setPrefHeight(40);
+        resultLabel.setWrapText(true);
 
         betBtn = new Button("BET");
         hitBtn = new Button("HIT");
@@ -89,7 +97,7 @@ public class SaloonPane extends BorderPane {
         infoBox.setPadding(new Insets(10, 0, 20, 0));
         infoBox.setPrefHeight(60);
 
-        VBox mainBox = new VBox(30, dealerBox, playerBox, statusLabel, buttonBox, infoBox);
+        VBox mainBox = new VBox(30, dealerBox, playerBox, statusLabel, resultLabel, buttonBox, infoBox);
         mainBox.setAlignment(Pos.TOP_CENTER);
         mainBox.setPadding(new Insets(20, 0, 0, 0));
         mainBox.setPrefWidth(1200);
@@ -159,6 +167,7 @@ public class SaloonPane extends BorderPane {
         setButtonVisibility(false, true, true);
         updateAllDisplays();
         statusLabel.setText("Your move: Hit or Stand?");
+        resultLabel.setText(""); // Clear previous round result
     }
 
     private void playerHit() {
@@ -177,18 +186,16 @@ public class SaloonPane extends BorderPane {
     }
     private void endGame() {
         setButtonVisibility(true, false, false);
+        game.endGame();
         updateAllDisplays();
         int playerValue = game.getPlayerHand().getBestValue();
         int dealerValue = game.getDealerHand().getBestValue();
         String result = game.getGameResult();
-        if (result == null || result.isEmpty()) {
-            game.endGame();
-            result = game.getGameResult();
-        }
+        statusLabel.setText(String.format("Player: %d  Dealer: %d", playerValue, dealerValue));
         if (result != null && !result.isEmpty()) {
-            statusLabel.setText(String.format("Player: %d  Dealer: %d\n%s", playerValue, dealerValue, result));
+            resultLabel.setText(result);
         } else {
-            statusLabel.setText(String.format("Player: %d  Dealer: %d", playerValue, dealerValue));
+            resultLabel.setText("(Game result unavailable)");
         }
     }
 
