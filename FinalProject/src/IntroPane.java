@@ -22,7 +22,7 @@ public class IntroPane extends BorderPane {
                 "Starting inventory: Coin: 20  Food: 10  Water: 15  Ammunition: 2\n\n" +
                 "Every day, you must delegate food, water, or medicine depending on the needs of your family. " +
                 "Events may occur, and you must use your supplies wisely to survive.\n\n" +
-                "Reach the 10th town after 30 days to win. Good luck!";
+                "Reach the 10th town after 50 days to win. Good luck!";
 
         Label introLabel = new Label(introText);
         introLabel.setStyle("-fx-text-fill: limegreen; -fx-font-size: 22px; -fx-font-family: 'Rockwell';");

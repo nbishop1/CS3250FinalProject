@@ -6,7 +6,7 @@ public class GameJourney {
     private boolean gameOver; 
     private Player player; 
     private Family family;
-    private ArrayList<Town> towns; // List of towns (TODO: town implementation)
+    private ArrayList<Town> towns; // List of towns
     private Town currentTown;
 
     // Constructor
@@ -86,5 +86,5 @@ public class GameJourney {
         }
     }
     
-    // TODO: Add methods for random events, traveling to towns, etc.
+    // TODO: Add methods for random events.
 }
