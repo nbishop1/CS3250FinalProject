@@ -56,7 +56,6 @@ public class TownPane extends BorderPane {
         buttonBox.prefWidthProperty().bind(this.widthProperty());
 
         leaveBtn.setOnAction(event -> {
-            journey.nextDay();
             primaryStage.getScene().setRoot(new JourneyPane(journey));
         });
         saloonBtn.setOnAction(event -> {

@@ -44,7 +44,7 @@ public class JourneyPane extends VBox {
         suppliesBox.getChildren().addAll(suppliesTitle, suppliesLabel);
         topHalf.getChildren().add(suppliesBox);
 
-        // Right 66%: VBox for day label, animation placeholder, and Next Day button
+        // Right 66%: VBox for day label, animation, and Next Day button
         VBox rightTop = new VBox();
         rightTop.setPadding(new Insets(20, 40, 0, 0));
         rightTop.setPrefWidth(800);
@@ -53,12 +53,12 @@ public class JourneyPane extends VBox {
         dayLabel.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 48px; -fx-text-fill: limegreen;");
         updateDayLabel();
         rightTop.getChildren().add(dayLabel);
-        // JourneyAnimationView displays the animated wagon, horse, and background
+        // JourneyAnimationView displays the animated wagon and background
         JourneyAnimationView animationView = new JourneyAnimationView();
         animationView.setMinHeight(180);
         animationView.setPrefHeight(320);
-        animationView.setMaxHeight(Double.MAX_VALUE); // Let it grow
-        VBox.setVgrow(animationView, Priority.ALWAYS); // Let it grow vertically
+        animationView.setMaxHeight(Double.MAX_VALUE);
+        VBox.setVgrow(animationView, Priority.ALWAYS); 
         rightTop.getChildren().add(animationView);
         Button nextDayButton = new Button("Next Day");
         nextDayButton.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 20px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");

@@ -42,18 +42,4 @@ public class Town {
         return events;
     }
 
-    // method signatures
-
-    public void enterTown(Player player) {
-        // show store and allow new blackjack game
-    }
-
-    public void visitStore(Player player) {
-        // open the store for the player
-    }
-
-    public void playBlackjack(Player player) {
-        // play the blackjack game for the player
-    }
-
 }
