@@ -67,11 +67,22 @@ public class JourneyPane extends VBox {
             updateDayLabel();
             updateSuppliesLabel(suppliesLabel);
             updateFamilyStatusBox();
-            // Switch to TownPane every five days
+            // Switch to TownPane every five days (priority over events)
             if (journey.getDay() % 5 == 0) {
                 Stage stage = (Stage) this.getScene().getWindow();
                 TownPane townPane = new TownPane(journey, stage);
                 stage.getScene().setRoot(townPane);
+                return;
+            }
+            // If an event is triggered, show EventScene
+            if (journey.getCurrentEvent() != null) {
+                Stage stage = (Stage) this.getScene().getWindow();
+                EventScene eventScene = new EventScene(journey.getCurrentEvent(), journey, () -> {
+                    // After event resolved, restore JourneyPane and update UI
+                    stage.getScene().setRoot(new JourneyPane(journey));
+                }, stage);
+                stage.getScene().setRoot(eventScene);
+                return;
             }
         });
         HBox buttonBox = new HBox(nextDayButton);

@@ -15,6 +15,7 @@ public class Town {
         journey.getTowns().add(this);
         if (journey.getCurrentTown() == null) {
             journey.setCurrentTown(this);
+            journey.resetEventStretch();
         }
     }
 

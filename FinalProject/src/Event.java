@@ -58,6 +58,9 @@ public class Event {
         if (affectedMember != null) {
             affectedMember.setHealth(affectedMember.getHealth() - impact);
             if (affectedMember.getHealth() <= 0) affectedMember.setAlive(false);
+            // Mark as sick/injured if not already
+            affectedMember.setSickOrInjured(true);
+            affectedMember.setDaysSinceSickOrInjured(0);
         }
         // Additional penalty logic can be added here
     }

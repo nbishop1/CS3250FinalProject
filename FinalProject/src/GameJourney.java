@@ -8,6 +8,8 @@ public class GameJourney {
     private Family family;
     private ArrayList<Town> towns; // List of towns
     private Town currentTown;
+    private EventManager eventManager;
+    private Event currentEvent;
 
     // Constructor
     public GameJourney(Player player, Family family) {
@@ -17,6 +19,8 @@ public class GameJourney {
         this.family = family;
         this.towns = new ArrayList<>();
         this.currentTown = null;
+        this.eventManager = new EventManager();
+        this.currentEvent = null;
         // Initialize 9 towns and 1 destination
         BlackJackGame blackjackGame = new BlackJackGame(player);
         for (int i = 1; i <= 9; i++) {
@@ -35,16 +39,34 @@ public class GameJourney {
     public Town getCurrentTown() {
         return currentTown;
     }
+    public EventManager getEventManager() { return eventManager; }
+    public Event getCurrentEvent() { return currentEvent; }
 
     // Setters
     public void setCurrentTown(Town town) {
         this.currentTown = town;
     }
+    public void setCurrentEvent(Event event) { this.currentEvent = event; }
 
-    // Advance day and update family members
+    // Call this when arriving at a town to reset event stretch
+    public void resetEventStretch() {
+        eventManager.resetForNewStretch(day);
+    }
+
+    // Advance day and trigger event if needed
     public void nextDay() {
         day++;
-        family.nextDay(); // Progress all family members
+        family.nextDay();
+        // Only trigger event if allowed
+        if (eventManager.canTriggerEvent(day)) {
+            Event event = eventManager.getRandomEvent(day, family);
+            if (event != null) {
+                setCurrentEvent(event);
+                // UI should now display the event scene and handle resolution
+                return;
+            }
+        }
+        setCurrentEvent(null); // No event today
     }
 
     // End the journey (set game over)
