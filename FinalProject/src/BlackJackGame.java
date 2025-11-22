@@ -5,17 +5,11 @@ public class BlackJackGame {
     private boolean inProgress;
     private String result;
     private int betAmount;
-    private int saloonLedger;
     private Player player;
 
-    public BlackJackGame(int initialCoins) {
+    public BlackJackGame(Player player) {
         this.deck = new CardDeck();
         this.dealer = new CardDealer();
-        saloonLedger = initialCoins;
-    }
-
-    public BlackJackGame(Player player) {
-        this(player.getSupplies().getCoin());
         this.player = player;
     }
 
@@ -26,53 +20,37 @@ public class BlackJackGame {
     public boolean isInProgress() { return inProgress; }
     public String getGameResult() { return result; }
     public int getBetAmount() { return betAmount; }
-    public int getSaloonLedger() { return saloonLedger; }
     public void setPlayer(Player player) { this.player = player; }
-    public int getPlayerCoins() { return player != null ? player.getSupplies().getCoin() : saloonLedger; }
+    public int getPlayerCoins() { return player != null ? player.getSupplies().getCoin() : 0; }
 
-    public void playFor(Player player) {
-        deck.reset();
-        CardHand playerHand = new CardHand();
-        int bet = placeBet(player, 1); // Always bet 1 coin for auto-play
-        if (bet == 0) return;
-        dealer.startDeal(deck, playerHand);
-        while (playerHand.getBestValue() < 17 && !playerHand.isBust()) {
-            playerHand.addCard(deck.draw());
-        }
-        dealer.dealersTurn(deck);
-        roundEnd(player, playerHand, dealer.getHand(), bet);
+    public boolean canPlaceBet(int bet) {
+        return player != null && bet > 0 && bet <= player.getSupplies().getCoin();
     }
 
-    public int placeBet(Player player, int amount) {
-        if (player.getSupplies().getCoin() < amount) return 0;
-        player.getSupplies().spendCoin(amount);
-        return amount;
+    public String getBetError(int bet) {
+        if (bet <= 0) return "Bet must be greater than 0.";
+        if (player == null || bet > player.getSupplies().getCoin()) return "You don't have enough coins for that bet.";
+        return null;
     }
 
-    public void roundEnd(Player player, CardHand playerHand, CardHand dealerHand, int bet) {
-        int playerValue = playerHand.getBestValue();
-        int dealerValue = dealerHand.getBestValue();
-        if (playerHand.isBust()) {
-            return;
-        } else if (dealerHand.isBust() || playerValue > dealerValue) {
-            // Player wins: receives double the bet
-            player.getSupplies().addCoin(bet * 2);
-        } else if (playerValue == dealerValue) {
-            // Tie: player gets bet back
-            player.getSupplies().addCoin(bet);
-        }
-        // If dealer wins, player loses bet (already subtracted)
+    public boolean placeBet(int bet) {
+        String error = getBetError(bet);
+        if (error != null) return false;
+        betAmount = bet;
+        player.getSupplies().spendCoin(bet);
+        return true;
     }
 
-    public void startGame(int bet) {
+    public boolean startGameWithBet(int bet) {
+        if (!canPlaceBet(bet)) return false;
         deck.reset();
         playerHand = new CardHand();
         dealer.getHand().clear();
-        betAmount = bet;
-        saloonLedger -= betAmount;
+        placeBet(bet);
         dealer.startDeal(deck, playerHand);
         inProgress = true;
         result = null;
+        return true;
     }
 
     public void playerHit() {
@@ -98,55 +76,22 @@ public class BlackJackGame {
         boolean playerBlackjack = (playerHand.getCards().size() == 2 && playerValue == 21);
         if (playerBust) {
             result = "You bust! Dealer wins.";
+            // Bet already subtracted at start
         } else if (playerBlackjack && !dealerBust && dealerValue != 21) {
             result = "Blackjack! You win!";
-            saloonLedger += betAmount * 2.5; // Blackjack pays 3:2
-            if (player != null) player.getSupplies().setCoin(saloonLedger);
+            player.getSupplies().addCoin((int)(betAmount * 2.5)); // Blackjack pays 3:2
         } else if (dealerBust) {
             result = "Dealer busts! You win!";
-            saloonLedger += betAmount * 2;
-            if (player != null) player.getSupplies().setCoin(saloonLedger);
+            player.getSupplies().addCoin(betAmount * 2);
         } else if (playerValue > dealerValue) {
             result = "You win!";
-            saloonLedger += betAmount * 2;
-            if (player != null) player.getSupplies().setCoin(saloonLedger);
+            player.getSupplies().addCoin(betAmount * 2);
         } else if (playerValue < dealerValue) {
             result = "Dealer wins.";
-            if (player != null) player.getSupplies().setCoin(saloonLedger);
+            // Bet already subtracted at start
         } else {
             result = playerBlackjack ? "Push (tie) with Blackjack!" : "Push (tie).";
-            saloonLedger += betAmount;
-            if (player != null) player.getSupplies().setCoin(saloonLedger);
+            player.getSupplies().addCoin(betAmount); // Return bet on tie
         }
-    }
-
-    public boolean canPlaceBet(int bet) {
-        return bet > 0 && bet <= saloonLedger;
-    }
-
-    public String getBetError(int bet) {
-        if (bet <= 0) return "Bet must be greater than 0.";
-        if (bet > saloonLedger) return "You don't have enough coins for that bet.";
-        return null;
-    }
-
-    public boolean placeBet(int bet) {
-        String error = getBetError(bet);
-        if (error != null) return false;
-        betAmount = bet;
-        saloonLedger -= bet;
-        return true;
-    }
-
-    public boolean startGameWithBet(int bet) {
-        if (!canPlaceBet(bet)) return false;
-        deck.reset();
-        playerHand = new CardHand();
-        dealer.getHand().clear();
-        placeBet(bet);
-        dealer.startDeal(deck, playerHand);
-        inProgress = true;
-        result = null;
-        return true;
     }
 }

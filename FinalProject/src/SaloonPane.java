@@ -17,7 +17,7 @@ public class SaloonPane extends BorderPane {
     private HBox dealerCards;
     private HBox playerCards;
     private Label statusLabel;
-    private Button betBtn, hitBtn, standBtn, exitBtn;
+    private Button betBtn, hitBtn, standBtn, exitBtn, allInBtn;
     private BlackJackGame game;
     private boolean inProgress;
     private Label coinsLabel, standingLabel;
@@ -68,14 +68,17 @@ public class SaloonPane extends BorderPane {
         resultLabel.setWrapText(true);
 
         betBtn = new Button("BET");
+        allInBtn = new Button("ALL IN");
         hitBtn = new Button("HIT");
         standBtn = new Button("STAND");
         exitBtn = new Button("EXIT");
         styleGameButton(betBtn);
+        styleGameButton(allInBtn);
         styleGameButton(hitBtn);
         styleGameButton(standBtn);
         styleGameButton(exitBtn);
-        HBox buttonBox = new HBox(40, betBtn, hitBtn, standBtn);
+        allInBtn.setOnAction(e -> handleAllInBet());
+        HBox buttonBox = new HBox(40, betBtn, allInBtn, hitBtn, standBtn);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(20, 0, 20, 0));
         buttonBox.setPrefHeight(80);
@@ -90,7 +93,7 @@ public class SaloonPane extends BorderPane {
         betField.setFont(Font.font("Rockwell", 30));
         betField.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-width: 2px;");
         betField.textProperty().addListener((obs, oldVal, newVal) -> validateBetInput());
-        HBox betControlBox = new HBox(30, betField, betBtn);
+        HBox betControlBox = new HBox(30, betField, betBtn, allInBtn);
         betControlBox.setAlignment(Pos.CENTER_LEFT);
         HBox infoBox = new HBox(40, coinsLabel, betControlBox, standingLabel, exitBtn);
         infoBox.setAlignment(Pos.CENTER);
@@ -239,6 +242,15 @@ public class SaloonPane extends BorderPane {
             standingLabel.setText("Current Standing: ");
         } else {
             standingLabel.setText("Current Standing: " + playerHand.getBestValue());
+        }
+    }
+    private void handleAllInBet() {
+        int coins = game.getPlayerCoins();
+        if (coins > 0) {
+            betField.setText(String.valueOf(coins));
+            startNewGame();
+        } else {
+            statusLabel.setText("You have no coins to go all in.");
         }
     }
 
