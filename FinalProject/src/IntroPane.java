@@ -3,6 +3,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class IntroPane extends BorderPane {
@@ -15,6 +16,7 @@ public class IntroPane extends BorderPane {
         this.journey = journey;
         this.playerName = playerName;
         this.setStyle("-fx-background-color: black;");
+		FontLibrary.addFont("IMFell", "fonts/IMFellDWPicaSC-Regular.ttf");
 
         String introText = "Howdy, " + playerName + "... " +
                 "You and your family are traveling to the west in search of riches in the form of gold. " +
@@ -25,7 +27,8 @@ public class IntroPane extends BorderPane {
                 "Reach the 10th town after 50 days to win. Good luck!";
 
         Label introLabel = new Label(introText);
-        introLabel.setStyle("-fx-text-fill: limegreen; -fx-font-size: 22px; -fx-font-family: 'Rockwell';");
+        introLabel.setStyle("-fx-text-fill: limegreen; -fx-font-size: 22px;");
+        introLabel.setFont(Font.font("IMFell"));
         introLabel.setWrapText(true);
 
         VBox centerBox = new VBox(30, introLabel);

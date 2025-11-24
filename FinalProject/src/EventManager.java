@@ -1,7 +1,6 @@
 import java.util.*;
 
 public class EventManager {
-    private static final int STRETCH_LENGTH = 5;
     private int lastTownDay = 0;
     private Set<String> occurredEvents = new HashSet<>();
     private Random random = new Random();

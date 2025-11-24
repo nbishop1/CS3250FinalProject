@@ -14,6 +14,7 @@ public class EventScene extends VBox {
     private VBox messageBox;
     private Runnable onEventResolved;
     private Stage stage;
+    
 
     public EventScene(Event event, GameJourney journey, Runnable onEventResolved, Stage stage) {
         this.event = event;
@@ -21,10 +22,11 @@ public class EventScene extends VBox {
         this.onEventResolved = onEventResolved;
         this.stage = stage;
         setStyle("-fx-background-color: black;");
+		FontLibrary.addFont("Sancreek", "fonts/Sancreek-Regular.ttf");
         setPadding(new Insets(40));
         setSpacing(24);
         descLabel = new Label(event.getDescription());
-        descLabel.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 32px; -fx-text-fill: limegreen;");
+        descLabel.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 32px; -fx-text-fill: limegreen;");
         Text details = new Text(event.getPenaltyDescription());
         details.setFill(Color.LIMEGREEN);
         details.setStyle("-fx-font-size: 20px; -fx-fill: limegreen;");
@@ -194,9 +196,5 @@ public class EventScene extends VBox {
             });
             optionsBox.getChildren().add(approachBtn);
         }
-    }
-
-    private void resolveEvent(boolean usedItem) {
-        // Deprecated: now handled in addOptions with showMessage
     }
 }

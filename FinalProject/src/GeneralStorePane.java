@@ -15,12 +15,13 @@ import java.util.HashMap;
 public class GeneralStorePane extends BorderPane {
     public GeneralStorePane(GameJourney journey, Town town, Player player, Stage primaryStage) {
         setStyle("-fx-background-color: black;");
+		FontLibrary.addFont("Sancreek", "fonts/Sancreek-Regular.ttf");
         GeneralStore store = town.getStore();
         Supplies supplies = player.getSupplies();
 
         // Title
         Label title = new Label("General Store");
-        title.setFont(Font.font("Rockwell", 36));
+        title.setFont(Font.font("Sancreek", 36));
         title.setTextFill(Color.LIMEGREEN);
         title.setAlignment(Pos.CENTER);
         VBox topBox = new VBox(title);

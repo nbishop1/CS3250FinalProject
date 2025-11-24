@@ -10,13 +10,15 @@ public class StartUpPane extends BorderPane {
     private Stage primaryStage;
 
     public StartUpPane(Stage primaryStage) {
+    	
         this.primaryStage = primaryStage;
         this.setStyle("-fx-background-color: black;");
+		FontLibrary.addFont("Sancreek", "fonts/Sancreek-Regular.ttf");
 
         // Game title 
         Label title = new Label("Hit, Partner.");
         double initialFontSize = 150; // Title grows with window size, window is initially 800px wide
-        title.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: " + initialFontSize + "px; -fx-font-weight: bold; -fx-text-fill: limegreen;");
+        title.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: " + initialFontSize + "px; -fx-text-fill: limegreen;");
 
         HBox topPane = new HBox(title);
         topPane.setAlignment(Pos.CENTER); // Center horizontally
@@ -32,12 +34,12 @@ public class StartUpPane extends BorderPane {
             double minSize = 40; // Minimum font size
             double maxSize = 250; // Maximum font size
             double fontSize = Math.max(minSize, Math.min(maxSize, width * scaleFactor));
-            title.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: " + fontSize + "px; -fx-font-weight: bold; -fx-text-fill: limegreen;");
+            title.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: " + fontSize + "px; -fx-text-fill: limegreen;");
         });
 
         // New Game button
         Button newGameBtn = new Button("New Game");
-        newGameBtn.setStyle("-fx-border-color: limegreen; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-radius: 5px; -fx-font-size: 32px; -fx-font-family: 'Rockwell';");
+        newGameBtn.setStyle("-fx-border-color: limegreen; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-radius: 5px; -fx-font-size: 32px; -fx-font-family: 'Sancreek';");
         newGameBtn.setOnAction(event -> {
             NameEntryPane nameEntryPane = new NameEntryPane(primaryStage);
             primaryStage.getScene().setRoot(nameEntryPane);
@@ -45,7 +47,7 @@ public class StartUpPane extends BorderPane {
 
         // Settings button
         Button settingsBtn = new Button("Settings");
-        settingsBtn.setStyle("-fx-border-color: limegreen; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-radius: 5px; -fx-font-size: 32px; -fx-font-family: 'Rockwell';");
+        settingsBtn.setStyle("-fx-border-color: limegreen; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-radius: 5px; -fx-font-size: 32px; -fx-font-family: 'Sancreek';");
         settingsBtn.setOnAction(event -> {
             SettingsPane settingsPane = new SettingsPane(primaryStage);
             primaryStage.getScene().setRoot(settingsPane);

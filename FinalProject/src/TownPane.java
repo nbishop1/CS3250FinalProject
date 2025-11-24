@@ -99,16 +99,15 @@ public class TownPane extends BorderPane {
         setTop(topBox);
     }
 
-    // Move popup to overlay imageStack, below dayLabel
     private void showFoundCoinsPopup(Supplies supplies, StackPane imageStack) {
         VBox popup = new VBox(24);
         popup.setAlignment(Pos.CENTER);
         popup.setStyle("-fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 4px; -fx-border-radius: 16px; -fx-background-radius: 16px;");
-        popup.setPadding(new Insets(32, 32, 32, 32)); // Increased padding for more space
+        popup.setPadding(new Insets(32, 32, 32, 32)); 
         Label msg = new Label("You found 5 coins on the ground");
         msg.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 32px; -fx-text-fill: limegreen;");
-        msg.setWrapText(true); // Ensure text wraps if needed
-        msg.setMaxWidth(500); // Allow message to use more width
+        msg.setWrapText(true);
+        msg.setMaxWidth(500); 
         Button contBtn = new Button("Continue");
         contBtn.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 22px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px; -fx-border-radius: 8px;");
         contBtn.setOnAction(e -> {
@@ -116,9 +115,8 @@ public class TownPane extends BorderPane {
             imageStack.getChildren().remove(popup);
         });
         popup.getChildren().addAll(msg, contBtn);
-        popup.setMaxWidth(540); // Increased popup width
-        popup.setMaxHeight(300); // Increased popup height
-        // Add popup to imageStack, position below dayLabel
+        popup.setMaxWidth(540); 
+        popup.setMaxHeight(300); 
         imageStack.getChildren().add(popup);
         StackPane.setAlignment(popup, Pos.TOP_CENTER);
         popup.translateYProperty().bind(imageStack.heightProperty().multiply(0.13)); // Position below dayLabel

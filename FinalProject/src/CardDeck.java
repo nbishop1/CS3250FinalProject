@@ -18,10 +18,6 @@ public class CardDeck {
         return cards;
     }
 
-    private static final int CARD_COLS = 13;
-    private static final int CARD_ROWS = 4;
-    private static final int CARD_WIDTH = 1897; // px
-    private static final int CARD_HEIGHT = 1877; // px
     private static final String CARD_BACK_PATH = "/images/CardBack.png";
     private Image cardBackImage;
 

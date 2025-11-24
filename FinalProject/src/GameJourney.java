@@ -108,5 +108,4 @@ public class GameJourney {
         }
     }
     
-    // TODO: Add methods for random events.
 }

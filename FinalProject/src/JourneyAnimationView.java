@@ -55,11 +55,9 @@ public class JourneyAnimationView extends StackPane {
     }
 
     private void update(long now) {
-        // Update background offset for scrolling effect
         double scaledBgWidth = bgImg.getWidth() * BACKGROUND_SCALE;
-        bgOffset += 2; // Move background left as wagon moves right
+        bgOffset += 2; // Move background left as wheels moves right
         if (bgOffset >= scaledBgWidth) bgOffset -= scaledBgWidth;
-        // Update wheel rotation
         wheelAngle -= 2;
         if (wheelAngle < 0) wheelAngle += 360;
     }

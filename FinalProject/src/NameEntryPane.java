@@ -13,6 +13,7 @@ public class NameEntryPane extends BorderPane {
     public NameEntryPane(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.setStyle("-fx-background-color: black;");
+        
 
         Label promptLabel = new Label("Enter your name:");
         promptLabel.setStyle("-fx-text-fill: limegreen; -fx-font-size: 28px; -fx-font-family: 'Rockwell';");
