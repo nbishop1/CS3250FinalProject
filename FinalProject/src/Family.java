@@ -3,9 +3,9 @@ import java.util.ArrayList;
 public class Family {
     private ArrayList<FamilyMember> members;
     
-    public static Family createDefaultFamily(String playerName) {
+    public static Family createDefaultFamily(Player player) {
         Family family = new Family();
-        family.addMember(new Player(playerName)); // Player: 1 food/4 days, 1 water/3 days, 1 medicine/7 days
+        family.addMember(player); // Use the provided player instance
         family.addMember(new FamilyMember("Mary", 3, 2, 5)); // Wife
         family.addMember(new FamilyMember("Uncle", 3, 2, 5)); // Uncle
         family.addMember(new FamilyMember("Luke", 2, 1, 3)); // Son
@@ -50,7 +50,7 @@ public class Family {
 
     public void nextDay() {
         for (FamilyMember m : members) {
-            if (m.isAlive()) m.nextDay();
+            m.nextDay();
         }
     }
 }

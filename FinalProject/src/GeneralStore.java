@@ -21,12 +21,12 @@ public class GeneralStore {
         // Ammo: 10 + 10*storeId coins, 2 units
         items.add(new Item("Ammo", 2));
         itemPrices.put("Ammo", 10 + 10 * storeId);
-        // Medicine: 5 + 5*storeId coins, 2 units
+        // Medicine: 10 + 10*storeId coins, 2 units
         items.add(new Item("Medicine", 2));
-        itemPrices.put("Medicine", 5 + 5 * storeId);
-        // SpareParts: 20 + 20*storeId coins, 1 unit
+        itemPrices.put("Medicine", 10 + 10 * storeId);
+        // SpareParts: 10 + 10*storeId coins, 1 unit
         items.add(new Item("SpareParts", 1));
-        itemPrices.put("SpareParts", 20 + 20 * storeId);
+        itemPrices.put("SpareParts", 10 + 10 * storeId);
     }
 
     public ArrayList<Item> getItems() {
@@ -90,6 +90,29 @@ public class GeneralStore {
         for (Item item : items) {
             int price = getPrice(item.getName());
             System.out.printf("%s - Price: %d coins, Stock: %d\n", item.getName(), price, item.getQuantity());
+        }
+    }
+
+    public void resetStock() {
+        Random rand = new Random();
+        for (Item item : items) {
+            switch (item.getName().toLowerCase()) {
+                case "food":
+                    item.setQuantity(rand.nextInt(6) + 5); // 5-10 units
+                    break;
+                case "water":
+                    item.setQuantity(rand.nextInt(6) + 5); // 5-10 units
+                    break;
+                case "ammo":
+                    item.setQuantity(2);
+                    break;
+                case "medicine":
+                    item.setQuantity(2);
+                    break;
+                case "spareparts":
+                    item.setQuantity(1);
+                    break;
+            }
         }
     }
 }

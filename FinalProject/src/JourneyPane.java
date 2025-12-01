@@ -69,8 +69,11 @@ public class JourneyPane extends VBox {
             updateDayLabel();
             updateSuppliesLabel(suppliesLabel);
             updateFamilyStatusBox();
+            // Check for ending after day progression
+            if (checkForEnding()) return;
             // Switch to TownPane every five days (priority over events)
             if (journey.getDay() % 5 == 0) {
+                journey.getCurrentTown().resetStoreStock();
                 Stage stage = (Stage) this.getScene().getWindow();
                 TownPane townPane = new TownPane(journey, stage);
                 stage.getScene().setRoot(townPane);
@@ -193,5 +196,50 @@ public class JourneyPane extends VBox {
             familyStatusBox.getChildren().add(cardBox);
             HBox.setHgrow(cardBox, Priority.ALWAYS);
         }
+    }
+
+    // Returns true if an ending was triggered
+    private boolean checkForEnding() {
+        Stage stage = (Stage) this.getScene().getWindow();
+        Player player = journey.getPlayer();
+        Family family = journey.getFamily();
+        String playerName = player.getName();
+        int day = journey.getDay();
+        // BAD ENDING: Player is dead
+        if (!player.isAlive()) {
+            EndGamePane endPane = new EndGamePane(stage, new BadEnding(), journey, playerName);
+            stage.getScene().setRoot(endPane);
+            return true;
+        }
+        // Only check other endings if player is alive and day 50 reached
+        if (day >= 50 && player.isAlive()) {
+            int numDead = 0;
+            int numAlive = 0;
+            for (FamilyMember member : family.getMembers()) {
+                if (!(member instanceof Player)) {
+                    if (!member.isAlive()) numDead++;
+                    else numAlive++;
+                }
+            }
+            // MONSTER ENDING: All family dead, player alive
+            if (numDead == family.getMembers().size() - 1) {
+                EndGamePane endPane = new EndGamePane(stage, new MonsterEnding(), journey, playerName);
+                stage.getScene().setRoot(endPane);
+                return true;
+            }
+            // GOOD ENDING: All alive
+            if (numDead == 0) {
+                EndGamePane endPane = new EndGamePane(stage, new GoodEnding(), journey, playerName);
+                stage.getScene().setRoot(endPane);
+                return true;
+            }
+            // AVERAGE ENDING: Some family dead
+            if (numDead > 0 && numDead < family.getMembers().size() - 1) {
+                EndGamePane endPane = new EndGamePane(stage, new AverageEnding(numDead), journey, playerName);
+                stage.getScene().setRoot(endPane);
+                return true;
+            }
+        }
+        return false;
     }
 }

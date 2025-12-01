@@ -43,4 +43,8 @@ public class Town {
         return events;
     }
 
+    public void resetStoreStock() {
+        store.resetStock();
+    }
+
 }

@@ -33,13 +33,17 @@ public class NameEntryPane extends BorderPane {
             String playerName = nameField.getText().trim();
             if (!playerName.isEmpty()) {
                 Player player = new Player(playerName);
-                Family family = Family.createDefaultFamily(playerName);
+                Family family = new Family();
+                family.addMember(player);
+                family.addMember(new FamilyMember("Mary", 3, 2, 5));
+                family.addMember(new FamilyMember("Uncle", 3, 2, 5));
+                family.addMember(new FamilyMember("Luke", 2, 1, 3));
+                family.addMember(new FamilyMember("Jessie", 2, 1, 3));
                 GameJourney journey = new GameJourney(player, family);
                 IntroPane introPane = new IntroPane(primaryStage, journey, playerName);
                 primaryStage.getScene().setRoot(introPane);
             } else {
                 nameField.setPromptText("What's your name, partner?");
-              
             }
         });
 
