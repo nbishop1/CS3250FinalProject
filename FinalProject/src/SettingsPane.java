@@ -8,13 +8,17 @@ import javafx.stage.Stage;
 
 public class SettingsPane extends BorderPane {
     private Stage primaryStage;
+    private javafx.scene.Parent previousPane;
 
-    public SettingsPane(Stage primaryStage) {
+    public SettingsPane(Stage primaryStage, javafx.scene.Parent previousPane) {
         this.primaryStage = primaryStage;
+        this.previousPane = previousPane;
         this.setStyle("-fx-background-color: black;");
+		FontLibrary.addFont("Quintessential", "fonts/Quintessential-Regular.ttf");
+		FontLibrary.addFont("Sancreek", "fonts/Sancreek-Regular.ttf");
 
         Label settingsLabel = new Label("Game Play");
-        settingsLabel.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: limegreen;");
+        settingsLabel.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: limegreen;");
         this.setStyle("-fx-background-color: black;");
 
         String gameplay = "Each family member requires food and water in different intervals:\n" +
@@ -24,14 +28,18 @@ public class SettingsPane extends BorderPane {
         					"Ignoring someone's needs for three days straight will result in their death.";
 
         Label introLabel = new Label(gameplay);
-        introLabel.setStyle("-fx-text-fill: limegreen; -fx-font-size: 22px; -fx-font-family: 'Rockwell';");
+        introLabel.setStyle("-fx-text-fill: limegreen; -fx-font-size: 22px; -fx-font-family: 'Quintessential';");
         introLabel.setWrapText(true);
 
         Button backBtn = new Button("Back");
-        backBtn.setStyle("-fx-font-size: 24px; -fx-background-color: limegreen; -fx-text-fill: black; -fx-font-family: 'Rockwell';");
+        backBtn.setStyle("-fx-font-size: 24px; -fx-background-color: limegreen; -fx-text-fill: black; -fx-font-family: 'Sancreek';");
         backBtn.setOnAction(event -> {
-            StartUpPane startUpPane = new StartUpPane(primaryStage);
-            primaryStage.getScene().setRoot(startUpPane);
+            if (previousPane != null) {
+                primaryStage.getScene().setRoot(previousPane);
+            } else {
+                StartUpPane startUpPane = new StartUpPane(primaryStage);
+                primaryStage.getScene().setRoot(startUpPane);
+            }
         });
 
         VBox centerBox = new VBox(30, settingsLabel, introLabel, backBtn);

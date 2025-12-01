@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 public class NameEntryPane extends BorderPane {
@@ -13,17 +14,21 @@ public class NameEntryPane extends BorderPane {
     public NameEntryPane(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.setStyle("-fx-background-color: black;");
+		FontLibrary.addFont("Quintessential", "fonts/Quintessential-Regular.ttf");
+		FontLibrary.addFont("Sancreek", "fonts/Sancreek-Regular.ttf");
         
 
         Label promptLabel = new Label("Enter your name:");
-        promptLabel.setStyle("-fx-text-fill: limegreen; -fx-font-size: 28px; -fx-font-family: 'Rockwell';");
+        promptLabel.setStyle("-fx-text-fill: limegreen; -fx-font-size: 50px; -fx-font-family: 'Sancreek';");
 
         TextField nameField = new TextField();
-        nameField.setPrefWidth(300);
-        nameField.setStyle("-fx-font-size: 22px; -fx-font-family: 'Rockwell';");
+        nameField.setPrefWidth(150);
+        nameField.setMaxWidth(300);
+        nameField.setStyle("-fx-font-size: 50px; -fx-font-family: 'Quintessential'; -fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-width: 3px; -fx-border-radius: 8px;");
+        VBox.setVgrow(nameField, Priority.NEVER);
 
         Button continueBtn = new Button("Continue");
-        continueBtn.setStyle("-fx-font-size: 24px; -fx-background-color: limegreen; -fx-text-fill: black; -fx-font-family: 'Rockwell';");
+        continueBtn.setStyle("-fx-font-size: 30px; -fx-background-color: limegreen; -fx-text-fill: black; -fx-font-family: 'Sancreek';");
         continueBtn.setOnAction(event -> {
             String playerName = nameField.getText().trim();
             if (!playerName.isEmpty()) {
@@ -34,6 +39,7 @@ public class NameEntryPane extends BorderPane {
                 primaryStage.getScene().setRoot(introPane);
             } else {
                 nameField.setPromptText("What's your name, partner?");
+              
             }
         });
 

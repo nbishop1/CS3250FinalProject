@@ -13,15 +13,16 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 
 public class GeneralStorePane extends BorderPane {
-    public GeneralStorePane(GameJourney journey, Town town, Player player, Stage primaryStage) {
+    public GeneralStorePane(GameJourney journey, Town town, Player player, Stage primaryStage, Runnable onExit) {
         setStyle("-fx-background-color: black;");
+		FontLibrary.addFont("Quintessential", "fonts/Quintessential-Regular.ttf");
 		FontLibrary.addFont("Sancreek", "fonts/Sancreek-Regular.ttf");
         GeneralStore store = town.getStore();
         Supplies supplies = player.getSupplies();
 
         // Title
         Label title = new Label("General Store");
-        title.setFont(Font.font("Sancreek", 36));
+        title.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 48px;");
         title.setTextFill(Color.LIMEGREEN);
         title.setAlignment(Pos.CENTER);
         VBox topBox = new VBox(title);
@@ -57,33 +58,33 @@ public class GeneralStorePane extends BorderPane {
             box.setMinHeight(180);
 
             Label nameLabel = new Label(itemName.replace("SpareParts", "Spare Parts"));
-            nameLabel.setFont(Font.font("Rockwell", 26));
+            nameLabel.setFont(Font.font("Sancreek", 26));
             nameLabel.setTextFill(Color.LIMEGREEN);
             Label stockLabel = new Label("Stock: " + stock);
-            stockLabel.setFont(Font.font("Rockwell", 20));
+            stockLabel.setFont(Font.font("Sancreek", 20));
             stockLabel.setTextFill(Color.LIMEGREEN);
             stockLabels.put(itemName, stockLabel);
             Label priceLabel = new Label("Cost: ¢" + price);
-            priceLabel.setFont(Font.font("Rockwell", 20));
+            priceLabel.setFont(Font.font("Sancreek", 20));
             priceLabel.setTextFill(Color.LIMEGREEN);
             HBox qtyBox = new HBox(10);
             qtyBox.setAlignment(Pos.CENTER);
             Button minusBtn = new Button("-");
-            minusBtn.setFont(Font.font("Rockwell", 20));
+            minusBtn.setFont(Font.font("Quintessential", 20));
             minusBtn.setPrefWidth(40);
             minusBtn.setPrefHeight(40);
-            minusBtn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen;");
+            minusBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: limegreen;");
             TextField qtyField = new TextField("0");
             qtyField.setPrefWidth(50);
-            qtyField.setFont(Font.font("Rockwell", 20));
+            qtyField.setFont(Font.font("Quintessential", 20));
             qtyField.setAlignment(Pos.CENTER);
-            qtyField.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen;");
+            qtyField.setStyle("-fx-background-color: transparent; -fx-text-fill: limegreen;");
             qtyFields.put(itemName, qtyField);
             Button plusBtn = new Button("+");
-            plusBtn.setFont(Font.font("Rockwell", 20));
+            plusBtn.setFont(Font.font("Quintessential", 20));
             plusBtn.setPrefWidth(40);
             plusBtn.setPrefHeight(40);
-            plusBtn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen;");
+            plusBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: limegreen;");
             minusBtn.setOnAction(e -> {
                 int val = Integer.parseInt(qtyField.getText());
                 if (val > 0) {
@@ -107,7 +108,7 @@ public class GeneralStorePane extends BorderPane {
 
         // Inventory table (now as a single row of VBoxes)
         Label invTitle = new Label("Current Inventory:");
-        invTitle.setFont(Font.font("Rockwell", 26));
+        invTitle.setFont(Font.font("Sancreek", 26));
         invTitle.setTextFill(Color.LIMEGREEN);
         HBox invRow = new HBox(40); // spacing between items
         invRow.setAlignment(Pos.CENTER);
@@ -117,7 +118,7 @@ public class GeneralStorePane extends BorderPane {
             VBox itemBox = new VBox(8);
             itemBox.setAlignment(Pos.CENTER);
             Label name = new Label(invName.replace("SpareParts", "Spare Parts"));
-            name.setFont(Font.font("Rockwell", 22));
+            name.setFont(Font.font("Sancreek", 22));
             name.setTextFill(Color.LIMEGREEN);
             int val = 0;
             switch (invName) {
@@ -128,7 +129,7 @@ public class GeneralStorePane extends BorderPane {
                 case "SpareParts": val = supplies.getSpareParts(); break;
             }
             Label qty = new Label(String.valueOf(val));
-            qty.setFont(Font.font("Rockwell", 26));
+            qty.setFont(Font.font("Quintessential", 26));
             qty.setTextFill(Color.LIMEGREEN);
             invQtyLabels.put(invName, qty);
             itemBox.getChildren().addAll(name, qty);
@@ -140,16 +141,16 @@ public class GeneralStorePane extends BorderPane {
 
         // Controls row: Total cost, coins, confirm, exit
         Label totalCostLabel = new Label("Total Cost: ¢0");
-        totalCostLabel.setFont(Font.font("Rockwell", 18));
+        totalCostLabel.setFont(Font.font("Sancreek", 18));
         totalCostLabel.setTextFill(Color.LIMEGREEN);
         totalCostLabel.setAlignment(Pos.CENTER);
         Label coinsLabel = new Label("Coins: ¢" + supplies.getCoin());
-        coinsLabel.setFont(Font.font("Rockwell", 18));
+        coinsLabel.setFont(Font.font("Sancreek", 18));
         coinsLabel.setTextFill(Color.LIMEGREEN);
         Button confirmBtn = new Button("Confirm Purchase");
-        confirmBtn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-font-size: 16px;");
+        confirmBtn.setStyle("-fx-font-family: 'Sancreek'; -fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-font-size: 16px;");
         Button exitBtn = new Button("Exit");
-        exitBtn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-font-size: 16px;");
+        exitBtn.setStyle("-fx-font-family: 'Sancreek'; -fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-font-size: 16px;");
         HBox controlsBox = new HBox(40, totalCostLabel, coinsLabel, confirmBtn, exitBtn);
         controlsBox.setAlignment(Pos.CENTER);
         controlsBox.setPadding(new Insets(20, 0, 0, 0));
@@ -170,6 +171,7 @@ public class GeneralStorePane extends BorderPane {
                 total += qty * store.getPrice(itemName);
             }
             totalCostLabel.setText("Total Cost: ¢" + total);
+            totalCostLabel.setFont(Font.font("Sancreek", 18));
         };
         for (String itemName : itemOrder) {
             qtyFields.get(itemName).textProperty().addListener((obs, oldVal, newVal) -> updateTotalCost.run());
@@ -212,6 +214,6 @@ public class GeneralStorePane extends BorderPane {
                 totalCostLabel.setText("Total Cost: ¢" + total + " (Insufficient)");
             }
         });
-        exitBtn.setOnAction(event -> primaryStage.getScene().setRoot(new TownPane(journey, primaryStage)));
+        exitBtn.setOnAction(event -> onExit.run());
     }
 }

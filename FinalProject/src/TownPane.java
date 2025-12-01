@@ -23,7 +23,7 @@ public class TownPane extends BorderPane {
         townImage.setSmooth(true);
         townImage.fitWidthProperty().bind(this.widthProperty());
         Label dayLabel = new Label("Day " + journey.getDay());
-        dayLabel.setStyle("-fx-font-size: 48px; -fx-font-family: 'Rockwell'; -fx-font-weight: bold; -fx-text-fill: limegreen; -fx-background-color: rgba(0,0,0,0.5);");
+        dayLabel.setStyle("-fx-font-size: 48px; -fx-font-family: 'Sancreek'; -fx-font-weight: bold; -fx-text-fill: limegreen; -fx-background-color: rgba(0,0,0,0.5);");
 
         Image spriteImg = new Image(getClass().getResourceAsStream("images/player.png"));
         ImageView spriteView = new ImageView(spriteImg);
@@ -48,9 +48,9 @@ public class TownPane extends BorderPane {
         Button saloonBtn = new Button("Enter Saloon");
         Button leaveBtn = new Button("Leave Town");
         Button storeBtn = new Button("Enter General Store");
-        saloonBtn.setStyle("-fx-font-size: 22px; -fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-radius: 5px;");
-        leaveBtn.setStyle("-fx-font-size: 22px; -fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-radius: 5px;");
-        storeBtn.setStyle("-fx-font-size: 22px; -fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-radius: 5px;");
+        saloonBtn.setStyle("-fx-font-size: 22px; -fx-font-family: 'Sancreek'; -fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-radius: 5px;");
+        leaveBtn.setStyle("-fx-font-size: 22px; -fx-font-family: 'Sancreek'; -fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-radius: 5px;");
+        storeBtn.setStyle("-fx-font-size: 22px; -fx-font-family: 'Sancreek'; -fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-radius: 5px;");
         Region leftSpacer = new Region();
         Region rightSpacer = new Region();
         HBox.setHgrow(leftSpacer, javafx.scene.layout.Priority.ALWAYS);
@@ -87,7 +87,9 @@ public class TownPane extends BorderPane {
                     }
                 }
                 primaryStage.getScene().setRoot(
-                    new GeneralStorePane(journey, journey.getCurrentTown(), journey.getPlayer(), primaryStage)
+                    new GeneralStorePane(journey, journey.getCurrentTown(), journey.getPlayer(), primaryStage, () -> {
+                        primaryStage.getScene().setRoot(new TownPane(journey, primaryStage));
+                    })
                 );
             });
             tt.play();
@@ -105,11 +107,11 @@ public class TownPane extends BorderPane {
         popup.setStyle("-fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 4px; -fx-border-radius: 16px; -fx-background-radius: 16px;");
         popup.setPadding(new Insets(32, 32, 32, 32)); 
         Label msg = new Label("You found 5 coins on the ground");
-        msg.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 32px; -fx-text-fill: limegreen;");
+        msg.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 32px; -fx-text-fill: limegreen;");
         msg.setWrapText(true);
         msg.setMaxWidth(500); 
         Button contBtn = new Button("Continue");
-        contBtn.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 22px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px; -fx-border-radius: 8px;");
+        contBtn.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 22px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px; -fx-border-radius: 8px;");
         contBtn.setOnAction(e -> {
             supplies.setCoin(supplies.getCoin() + 5);
             imageStack.getChildren().remove(popup);

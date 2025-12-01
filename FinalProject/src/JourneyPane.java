@@ -16,6 +16,8 @@ public class JourneyPane extends VBox {
     public JourneyPane(GameJourney journey) {
         this.journey = journey;
         this.setStyle("-fx-background-color: black;");
+		FontLibrary.addFont("Quintessential", "fonts/Quintessential-Regular.ttf");
+		FontLibrary.addFont("Sancreek", "fonts/Sancreek-Regular.ttf");
         this.setSpacing(0);
 
         // Top half: HBox split into supplies (33%) and day/animation (66%)
@@ -26,16 +28,16 @@ public class JourneyPane extends VBox {
         // Supplies box (left 33%)
         VBox suppliesBox = new VBox(10);
         suppliesBox.setPadding(new Insets(30, 30, 30, 30));
-        suppliesBox.setStyle("-fx-font-family: 'Rockwell'; -fx-border-color: limegreen; -fx-border-width: 3px; -fx-background-color: black;");
+        suppliesBox.setStyle("-fx-border-color: limegreen; -fx-border-width: 3px; -fx-background-color: black;");
         suppliesBox.setPrefWidth(340);
         suppliesBox.setMinWidth(220);
         suppliesBox.setMaxWidth(400);
         suppliesBox.setAlignment(javafx.geometry.Pos.TOP_LEFT);
         VBox.setVgrow(suppliesBox, Priority.ALWAYS); // Let it grow vertically
         Label suppliesTitle = new Label("Supplies");
-        suppliesTitle.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 30px; -fx-text-fill: limegreen;");
+        suppliesTitle.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 30px; -fx-text-fill: limegreen;");
         Label suppliesLabel = new Label();
-        suppliesLabel.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 22px; -fx-text-fill: limegreen;");
+        suppliesLabel.setStyle("-fx-font-family: 'Quintessential'; -fx-font-size: 22px; -fx-text-fill: limegreen;");
         suppliesLabel.setWrapText(true);
         suppliesLabel.setMaxWidth(Double.MAX_VALUE);
         suppliesLabel.setMaxHeight(Double.MAX_VALUE);
@@ -50,7 +52,7 @@ public class JourneyPane extends VBox {
         rightTop.setPrefWidth(800);
         rightTop.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
         dayLabel = new Label();
-        dayLabel.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 48px; -fx-text-fill: limegreen;");
+        dayLabel.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 48px; -fx-text-fill: limegreen;");
         updateDayLabel();
         rightTop.getChildren().add(dayLabel);
         // JourneyAnimationView displays the animated wagon and background
@@ -61,7 +63,7 @@ public class JourneyPane extends VBox {
         VBox.setVgrow(animationView, Priority.ALWAYS); 
         rightTop.getChildren().add(animationView);
         Button nextDayButton = new Button("Next Day");
-        nextDayButton.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 20px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
+        nextDayButton.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 20px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
         nextDayButton.setOnAction(event -> {
             journey.nextDay();
             updateDayLabel();
@@ -134,7 +136,7 @@ public class JourneyPane extends VBox {
             VBox cardBox = new VBox(10);
             cardBox.setAlignment(javafx.geometry.Pos.CENTER);
             cardBox.setPadding(new Insets(10));
-            cardBox.setStyle("-fx-font-family: 'Rockwell'; -fx-border-color: limegreen; -fx-border-width: 3px; -fx-background-color: black; -fx-border-radius: 12px; -fx-background-radius: 12px;");
+            cardBox.setStyle("-fx-font-family: 'Quintessential'; -fx-border-color: limegreen; -fx-border-width: 3px; -fx-background-color: black; -fx-border-radius: 12px; -fx-background-radius: 12px;");
             cardBox.setMinWidth(160);
             cardBox.setPrefWidth(Math.max(180, familyStatusBox.getWidth() / Math.max(1, memberCount) - 32));
             cardBox.setMaxWidth(Double.MAX_VALUE);
@@ -144,7 +146,7 @@ public class JourneyPane extends VBox {
             HBox.setHgrow(cardBox, Priority.ALWAYS); // Let cards grow horizontally
 
             Label statusLabel = new Label(member.getName() + " " + member.getStatusText());
-            statusLabel.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 20px; -fx-text-fill: limegreen;");
+            statusLabel.setStyle("-fx-font-family: 'Quintessential'; -fx-font-size: 20px; -fx-text-fill: limegreen;");
             statusLabel.setWrapText(true);
             statusLabel.setMaxWidth(Double.MAX_VALUE);
             VBox.setVgrow(statusLabel, Priority.ALWAYS);
@@ -156,7 +158,7 @@ public class JourneyPane extends VBox {
             if (member.isAlive()) {
                 if (journey.canFeed(member)) {
                     Button feedBtn = new Button("Feed");
-                    feedBtn.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 16px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
+                    feedBtn.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 16px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
                     feedBtn.setOnAction(event -> {
                         journey.feedMember(member);
                         updateSuppliesLabel(((Label)((VBox)((HBox)getChildren().get(0)).getChildren().get(0)).getChildren().get(1)));
@@ -166,7 +168,7 @@ public class JourneyPane extends VBox {
                 }
                 if (journey.canGiveWater(member)) {
                     Button waterBtn = new Button("Give Water");
-                    waterBtn.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 16px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
+                    waterBtn.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 16px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
                     waterBtn.setOnAction(event -> {
                         journey.giveWaterToMember(member);
                         updateSuppliesLabel(((Label)((VBox)((HBox)getChildren().get(0)).getChildren().get(0)).getChildren().get(1)));
@@ -176,7 +178,7 @@ public class JourneyPane extends VBox {
                 }
                 if (journey.canHeal(member)) {
                     Button healBtn = new Button("Heal");
-                    healBtn.setStyle("-fx-font-family: 'Rockwell'; -fx-font-size: 16px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
+                    healBtn.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 16px; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-color: limegreen; -fx-border-width: 2px;");
                     healBtn.setOnAction(event -> {
                         journey.healMember(member);
                         updateSuppliesLabel(((Label)((VBox)((HBox)getChildren().get(0)).getChildren().get(0)).getChildren().get(1)));

@@ -14,8 +14,6 @@ public class FontLibrary {
 		if (stream != null ) {
 			Font font = Font.loadFont(stream, defaultSize);
 			
-			System.out.println(font.getFamily());
-			
 			if (font != null) {
 				fontMap.put(name, font);
 			}

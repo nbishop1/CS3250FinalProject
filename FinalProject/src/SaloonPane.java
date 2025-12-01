@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -21,10 +22,13 @@ public class SaloonPane extends BorderPane {
     private BlackJackGame game;
     private boolean inProgress;
     private Label coinsLabel, standingLabel;
-    private Label resultLabel; // New label for round result
+    private Label resultLabel; 
     private javafx.scene.control.TextField betField;
     private int currentBet = 0;
     private Player player;
+    private StackPane actionArea; // Holds either buttons or result label
+    private HBox buttonBox; 
+    private HBox betControlBox; 
 
     public SaloonPane(GameJourney journey, Stage primaryStage) {
         setStyle("-fx-background-color: black;");
@@ -34,7 +38,7 @@ public class SaloonPane extends BorderPane {
         inProgress = false;
 
         Label dealerLabel = new Label("Dealer");
-        dealerLabel.setFont(Font.font("Rockwell", 40));
+        dealerLabel.setFont(Font.font("Sancreek", 40));
         dealerLabel.setTextFill(Color.LIMEGREEN);
         dealerCards = new HBox(30);
         dealerCards.setAlignment(Pos.CENTER);
@@ -44,7 +48,7 @@ public class SaloonPane extends BorderPane {
         dealerBox.setPrefHeight(300);
 
         Label playerLabel = new Label("Player");
-        playerLabel.setFont(Font.font("Rockwell", 40));
+        playerLabel.setFont(Font.font("Sancreek", 40));
         playerLabel.setTextFill(Color.LIMEGREEN);
         playerCards = new HBox(30);
         playerCards.setAlignment(Pos.CENTER);
@@ -54,18 +58,19 @@ public class SaloonPane extends BorderPane {
         playerBox.setPrefHeight(300);
 
         statusLabel = new Label("");
-        statusLabel.setFont(Font.font("Rockwell", 30));
+        statusLabel.setFont(Font.font("Sancreek", 30));
         statusLabel.setTextFill(Color.LIMEGREEN);
         statusLabel.setAlignment(Pos.CENTER);
-        statusLabel.setPrefHeight(60); // Only for player/dealer values
+        statusLabel.setPrefHeight(60); 
         statusLabel.setWrapText(true);
 
-        resultLabel = new Label(""); // New result label
-        resultLabel.setFont(Font.font("Rockwell", 32));
+        resultLabel = new Label(""); 
+        resultLabel.setFont(Font.font("Quintessential", 32));
         resultLabel.setTextFill(Color.LIMEGREEN);
         resultLabel.setAlignment(Pos.CENTER);
         resultLabel.setPrefHeight(40);
         resultLabel.setWrapText(true);
+        resultLabel.setVisible(false); // Initially hidden
 
         betBtn = new Button("BET");
         allInBtn = new Button("ALL IN");
@@ -78,29 +83,39 @@ public class SaloonPane extends BorderPane {
         styleGameButton(standBtn);
         styleGameButton(exitBtn);
         allInBtn.setOnAction(e -> handleAllInBet());
-        HBox buttonBox = new HBox(40, betBtn, allInBtn, hitBtn, standBtn);
+        buttonBox = new HBox(40, hitBtn, standBtn);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(20, 0, 20, 0));
         buttonBox.setPrefHeight(80);
+        buttonBox.setStyle("-fx-font-family: 'Sancreek';");
+        buttonBox.setVisible(false); // Initially hidden
 
-        coinsLabel = new Label();
-        standingLabel = new Label();
-        styleInfoLabel(coinsLabel);
-        styleInfoLabel(standingLabel);
+        actionArea = new StackPane(buttonBox, resultLabel);
+        actionArea.setPrefHeight(80);
+        actionArea.setAlignment(Pos.CENTER);
+
         betField = new javafx.scene.control.TextField();
+        betField.setPrefWidth(100);
+        betField.setFont(Font.font("Sancreek", 24));
+        betField.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-radius: 8px;");
+        betField.setAlignment(Pos.CENTER);
         betField.setText("0");
-        betField.setPrefWidth(80);
-        betField.setFont(Font.font("Rockwell", 30));
-        betField.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-width: 2px;");
         betField.textProperty().addListener((obs, oldVal, newVal) -> validateBetInput());
-        HBox betControlBox = new HBox(30, betField, betBtn, allInBtn);
-        betControlBox.setAlignment(Pos.CENTER_LEFT);
+        betControlBox = new HBox(10, betField, betBtn, allInBtn);
+        betControlBox.setAlignment(Pos.CENTER);
+        betControlBox.setPrefHeight(60);
+
+        coinsLabel = new Label("Coins: 0");
+        styleInfoLabel(coinsLabel);
+        standingLabel = new Label("Current Standing: ");
+        styleInfoLabel(standingLabel);
+
         HBox infoBox = new HBox(40, coinsLabel, betControlBox, standingLabel, exitBtn);
         infoBox.setAlignment(Pos.CENTER);
         infoBox.setPadding(new Insets(10, 0, 20, 0));
         infoBox.setPrefHeight(60);
 
-        VBox mainBox = new VBox(30, dealerBox, playerBox, statusLabel, resultLabel, buttonBox, infoBox);
+        VBox mainBox = new VBox(30, dealerBox, playerBox, statusLabel, actionArea, infoBox);
         mainBox.setAlignment(Pos.TOP_CENTER);
         mainBox.setPadding(new Insets(20, 0, 0, 0));
         mainBox.setPrefWidth(1200);
@@ -121,19 +136,20 @@ public class SaloonPane extends BorderPane {
     }
 
     private void styleGameButton(Button btn) {
-        btn.setFont(Font.font("Rockwell", 30));
+        btn.setFont(Font.font("Sancreek", 30));
         btn.setStyle("-fx-background-color: black; -fx-text-fill: limegreen; -fx-border-color: limegreen; -fx-border-radius: 8px;");
         btn.setPrefWidth(140);
         btn.setPrefHeight(60);
     }
     private void styleInfoLabel(Label lbl) {
-        lbl.setFont(Font.font("Rockwell", 30));
+        lbl.setFont(Font.font("Sancreek", 30));
         lbl.setTextFill(Color.LIMEGREEN);
     }
     private void setButtonVisibility(boolean bet, boolean hit, boolean stand) {
         betBtn.setVisible(bet);
-        hitBtn.setVisible(hit);
-        standBtn.setVisible(stand);
+        allInBtn.setVisible(bet);
+        buttonBox.setVisible(hit || stand); // Show buttonBox if hit or stand
+        resultLabel.setVisible(false); // Hide resultLabel when showing buttons
     }
 
     private void validateBetInput() {
@@ -168,6 +184,8 @@ public class SaloonPane extends BorderPane {
             return;
         }
         setButtonVisibility(false, true, true);
+        buttonBox.setVisible(true); // Show buttons
+        resultLabel.setVisible(false);
         updateAllDisplays();
         statusLabel.setText("Your move: Hit or Stand?");
         resultLabel.setText(""); // Clear previous round result
@@ -195,6 +213,8 @@ public class SaloonPane extends BorderPane {
         int dealerValue = game.getDealerHand().getBestValue();
         String result = game.getGameResult();
         statusLabel.setText(String.format("Player: %d  Dealer: %d", playerValue, dealerValue));
+        buttonBox.setVisible(false); // Hide buttons
+        resultLabel.setVisible(true); // Show result
         if (result != null && !result.isEmpty()) {
             resultLabel.setText(result);
         } else {

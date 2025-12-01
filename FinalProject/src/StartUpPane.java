@@ -49,7 +49,7 @@ public class StartUpPane extends BorderPane {
         Button settingsBtn = new Button("Settings");
         settingsBtn.setStyle("-fx-border-color: limegreen; -fx-text-fill: limegreen; -fx-background-color: black; -fx-border-radius: 5px; -fx-font-size: 32px; -fx-font-family: 'Sancreek';");
         settingsBtn.setOnAction(event -> {
-            SettingsPane settingsPane = new SettingsPane(primaryStage);
+            SettingsPane settingsPane = new SettingsPane(primaryStage, this);
             primaryStage.getScene().setRoot(settingsPane);
         });
 

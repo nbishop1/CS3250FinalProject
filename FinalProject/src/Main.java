@@ -15,6 +15,20 @@ public class Main extends Application{
 		primaryStage.setScene(scene);
 		primaryStage.setMaximized(true);
 		primaryStage.setResizable(false);
+
+		// ESC key handler to show SettingsPane
+		scene.setOnKeyPressed(event -> {
+			switch (event.getCode()) {
+				case ESCAPE:
+					javafx.scene.Parent currentRoot = scene.getRoot();
+					SettingsPane settingsPane = new SettingsPane(primaryStage, currentRoot);
+					scene.setRoot(settingsPane);
+					break;
+				default:
+					break;
+			}
+		});
+
 		primaryStage.show();
 	}
 
