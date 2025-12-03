@@ -63,9 +63,22 @@ public class EndGamePane extends BorderPane {
             NameEntryPane nameEntryPane = new NameEntryPane(primaryStage);
             primaryStage.getScene().setRoot(nameEntryPane);
         });
-        VBox bottomBox = new VBox(restartBtn);
-        bottomBox.setAlignment(Pos.BOTTOM_RIGHT);
-        bottomBox.setPadding(new Insets(0, 40, 40, 0));
+
+        // Exit button
+        Button exitBtn = new Button("Exit");
+        exitBtn.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 28px; -fx-background-color: limegreen; -fx-text-fill: black;");
+        exitBtn.setOnAction(e -> {
+            primaryStage.close();
+        });
+
+        // Spacer to push buttons to edges
+        javafx.scene.layout.Region spacer = new javafx.scene.layout.Region();
+        HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+
+        // Bottom HBox for buttons
+        HBox bottomBox = new HBox(10, exitBtn, spacer, restartBtn);
+        bottomBox.setPadding(new Insets(0, 40, 40, 40));
+        bottomBox.setAlignment(Pos.BOTTOM_CENTER);
         setBottom(bottomBox);
     }
 }
