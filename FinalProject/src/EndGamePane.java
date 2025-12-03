@@ -25,7 +25,7 @@ public class EndGamePane extends BorderPane {
         FontLibrary.addFont("Quintessential", "fonts/Quintessential-Regular.ttf");
 
         // Top: Ending type
-        Label typeLabel = new Label(endingType.getType());
+        Label typeLabel = new Label(endingType.getType() + " Ending");
         typeLabel.setStyle("-fx-font-family: 'Sancreek'; -fx-font-size: 64px; -fx-text-fill: limegreen;");
         typeLabel.setAlignment(Pos.CENTER);
 
@@ -47,7 +47,7 @@ public class EndGamePane extends BorderPane {
         for (int idx : headstoneIndices) {
             Image img = new Image("images/Headstones/Headstone" + idx + ".png");
             ImageView imgView = new ImageView(img);
-            imgView.setFitHeight(120);
+            imgView.setFitHeight(300);
             imgView.setPreserveRatio(true);
             headstoneBox.getChildren().add(imgView);
         }

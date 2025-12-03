@@ -5,7 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 
 
-// TODO: Add horse animation if time allows
+// TODO: Add horse animation if time allows Note: It didn't.
 
 public class JourneyAnimationView extends StackPane {
     private static final String BG_PATH = "/images/background.png";
