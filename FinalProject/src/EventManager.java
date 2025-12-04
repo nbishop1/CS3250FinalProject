@@ -18,44 +18,19 @@ public class EventManager {
     public Event getRandomEvent(int currentDay, Family family) {
         List<Event> possibleEvents = new ArrayList<>();
         if (!occurredEvents.contains("outlaws") && random.nextInt(100) < 5) {
-            Event e = new Event(
-                "Caught by Outlaws: A posy of outlaws have circled the wagon!",
-                20
-            );
-            e.addRequiredItem("ammo", 2);
-            e.addRequiredItem("food", 5);
-            e.addRequiredItem("water", 4);
-            e.addRequiredItem("coin", 10);
-            e.setPenaltyDescription("Failure to fend them off may mean you pay the ultimate price...");
+            Event e = new OutlawEvent();
             possibleEvents.add(e);
         }
         if (!occurredEvents.contains("wheel") && random.nextInt(100) < 10) {
-            Event e = new Event(
-                "I Broke the Gosh-dang Wheel: The wheel of the wagon broke clean off!",
-                10
-            );
-            e.addRequiredItem("coin", 10);
-            e.addRequiredItem("spare part", 1);
-            e.setPenaltyDescription("If you don't make the repair, this is going to be a long night...");
+            Event e = new WheelEvent();
             possibleEvents.add(e);
         }
         if (!occurredEvents.contains("snake") && random.nextInt(100) < 10) {
-            Event e = new Event(
-                "Snake Bite: A rattlesnake was found in the wagon!",
-                15
-            );
-            e.addRequiredItem("medicine", 1);
-            e.addRequiredItem("food", 2);
-            e.addRequiredItem("ammo", 1);
-            e.setPenaltyDescription("Failure to get rid of the snake can get someone hurt...");
+            Event e = new SnakeEvent();
             possibleEvents.add(e);
         }
         if (!occurredEvents.contains("stranger") && random.nextInt(100) < 5) {
-            Event e = new Event(
-                "Hello, Stranger: A mysterious caravan playing soft music on a gramophone sits on the path's edge... Approach?",
-                0
-            );
-            e.setPenaltyDescription("A merchant appears. You may approach to trade, or pass by without incident.");
+            Event e = new StrangerEvent();
             possibleEvents.add(e);
         }
         if (possibleEvents.isEmpty()) return null;

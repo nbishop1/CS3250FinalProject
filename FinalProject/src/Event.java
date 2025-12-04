@@ -1,11 +1,11 @@
 import java.util.HashMap;
 
-public class Event {
-    private String description;
-    private int impact;
-    private HashMap<String, Integer> requiredItems; // item name -> quantity
-    private FamilyMember affectedMember;
-    private String penaltyDescription;
+public abstract class Event {
+    protected String description;
+    protected int impact;
+    protected HashMap<String, Integer> requiredItems; // item name -> quantity
+    protected FamilyMember affectedMember;
+    protected String penaltyDescription;
 
     public Event(String description, int impact) {
         this.setDescription(description);
@@ -62,18 +62,28 @@ public class Event {
             affectedMember.setSickOrInjured(true);
             affectedMember.setDaysSinceSickOrInjured(0);
         }
-        // Additional penalty logic can be added here
     }
 
-    public void applyTo(Player player) {
-        // change the state of the player or family
+    public String getDescription() {
+        return description;
     }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public abstract String getEventType();
+    public abstract String getOutcomeMessage(String option, String outcome);
+    public abstract String handleDoNothing(Supplies supplies, GameJourney journey);
+    public void handleOption(String option, int qty, Supplies supplies, GameJourney journey) {
+        // Default: remove supplies
+        switch (option) {
+            case "food": supplies.eatFood(qty); break;
+            case "water": supplies.drinkWater(qty); break;
+            case "medicine": supplies.useMedicine(qty); break;
+            case "ammo": supplies.useAmmo(qty); break;
+            case "coin": supplies.spendCoin(qty); break;
+            case "spare part": supplies.setSpareParts(supplies.getSpareParts() - qty); break;
+        }
+    }
 }
