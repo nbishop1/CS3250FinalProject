@@ -63,8 +63,4 @@ public class Player extends FamilyMember {
         }
         return false; // Item not found or not enough quantity
     }
-
-    public void eventEffect(Event event) {
-        // update health and supplies based on what event occurs
-    }
 }
